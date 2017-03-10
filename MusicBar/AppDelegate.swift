@@ -3,7 +3,7 @@
 //  MusicBar
 //
 //  Created by Eric de Vulpillières on 28/01/2017.
-//  Copyright © 2017 Eric de Vulpillières. All rights reserved.
+//  Copyright © 2017 Tungsten. All rights reserved.
 //
 
 import Cocoa
@@ -37,10 +37,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
         
+        // Target applications
         iTunes = SBApplication.init(bundleIdentifier: "com.apple.iTunes")
         
         // Style
-     
+        /// Not implemented yet
         
         // MusicBar Button and menu setup
         MusicBarSI.menu = menu
@@ -68,6 +69,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             FwdButton.action = #selector(fwdFunc)
         }
         
+        // Song & artist display
+        if let ArtistBarButton = ArtistBarSI.button {
+            ArtistBarButton.alignment = .left
+        }
+        if let Separator1Button = Separator1SI.button {
+            Separator1Button.image = NSImage(named: "Bar-Icon")
+        }
+        if let TitleBarButton = TitleBarSI.button {
+            TitleBarButton.alignment = .left;
+        }
+        if let Separator2Button = Separator2SI.button {
+            Separator2Button.image = NSImage(named: "Bar-Icon")
+        }
+
+    
         // Rating control setup
         if let Star0Button = Star0SI.button {
             Star0Button.image = NSImage(named: "Bar-Icon")
@@ -98,22 +114,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             RightEdgeButton.image?.isTemplate = true
         }
         
-        if let ArtistBarButton = ArtistBarSI.button {
-            ArtistBarButton.alignment = .left
-        }
-        if let Separator1Button = Separator1SI.button {
-            Separator1Button.image = NSImage(named: "Bar-Icon")
-        }
-        if let TitleBarButton = TitleBarSI.button {
-            TitleBarButton.alignment = .left;
-        }
-        if let Separator2Button = Separator2SI.button {
-            Separator2Button.image = NSImage(named: "Bar-Icon")
-        }
+        // Update display
+        updateDisplay()
         
-        updateTrackInfo()
-        
-        DistributedNotificationCenter.default().addObserver(self, selector: #selector(updateTrackInfo), name:NSNotification.Name(rawValue: "com.apple.iTunes.playerInfo"), object: nil)
+        DistributedNotificationCenter.default().addObserver(self, selector: #selector(updateDisplay), name:NSNotification.Name(rawValue: "com.apple.iTunes.playerInfo"), object: nil)
         
     }
 
@@ -171,8 +175,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     // Update functions
-    
-    func updateTrackInfo() {
+    func updateDisplay() {
         
         let track: iTunesTrack = iTunes.currentTrack;
         
@@ -192,25 +195,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Cover art display
         
         /*
-        let playlists = iTunes.playlists()
-        print(playlists?[0] as Any)
-        
-        
-        var playlist: iTunesPlaylist
-         
-        if let dummyPlaylist = playlists?[0] {
-            playlist = dummyPlaylist as! iTunesPlaylist
-            print(playlist.name)
-        }
-        
         let artworks = track.artworks().get()
-        print(artworks?[0] ?? "fuck")
+        print(artworks?[0] ?? "damned")
 
         let coverArt = artworks?[0] as! iTunesArtwork
         if let CoverArtButton = CoverArtSI.button {
             CoverArtButton.image = coverArt.data
-            //CoverArtButton.action = #selector(backFunc)
-        }*/
+        }
+        */
+        
+        // Other tests
+        /*
+        let playlists = iTunes.playlists()
+        print(playlists?[0] as Any)
+
+        var playlist: iTunesPlaylist
+         
+        if let dummyPlaylist = playlists?[0] {
+            playlist = dummyPlaylist as! iTunesPlaylist
+        print(playlist.name)
+        }
+        */
         
         
         // Track display
@@ -233,13 +238,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let TitleButton = TitleBarSI.button
         let ArtistButton = ArtistBarSI.button
         
-        let titleStyle = NSMutableParagraphStyle()
-        titleStyle.alignment = NSTextAlignment.center
+        //let titleStyle = NSMutableParagraphStyle()
+        //titleStyle.alignment = NSTextAlignment.center
         
         if title != "" {
-//            TitleButton?.attributedTitle = NSAttributedString(string: title!, attributes: [NSForegroundColorAttributeName: NSColor.gray, NSParagraphStyleAttributeName: titleStyle])
+            //TitleButton?.attributedTitle = NSAttributedString(string: title!, attributes: [NSForegroundColorAttributeName: NSColor.gray, NSParagraphStyleAttributeName: titleStyle])
             TitleButton?.title = title!;
-            print(TitleButton!.intrinsicContentSize)
+            //print(TitleButton!.intrinsicContentSize)
         } else {
             TitleButton?.title = ""
         }

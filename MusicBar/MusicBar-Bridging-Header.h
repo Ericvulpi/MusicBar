@@ -3,7 +3,7 @@
 //  MusicBar
 //
 //  Created by Eric de Vulpillières on 25/02/2017.
-//  Copyright © 2017 BarControl. All rights reserved.
+//  Copyright © 2017 Tungsten. All rights reserved.
 //
 
 #ifndef MusicBar_Bridging_Header_h

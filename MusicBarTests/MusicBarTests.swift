@@ -3,7 +3,7 @@
 //  MusicBarTests
 //
 //  Created by Eric de Vulpillières on 28/01/2017.
-//  Copyright © 2017 Eric de Vulpillières. All rights reserved.
+//  Copyright © 2017 Tungsten. All rights reserved.
 //
 
 import XCTest

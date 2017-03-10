@@ -193,7 +193,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
 				LastUpgradeCheck = 0820;
-				ORGANIZATIONNAME = BarControl;
+				ORGANIZATIONNAME = Tungsten;
 				TargetAttributes = {
 					07BFF1971E3C1C77008DC441 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -406,7 +406,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = MusicBar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = BarControl.MusicBar;
+				PRODUCT_BUNDLE_IDENTIFIER = Tungsten.MusicBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "MusicBar/MusicBar-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -421,7 +421,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = MusicBar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = BarControl.MusicBar;
+				PRODUCT_BUNDLE_IDENTIFIER = Tungsten.MusicBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "MusicBar/MusicBar-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
