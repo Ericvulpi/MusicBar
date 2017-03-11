@@ -138,8 +138,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Setting up observers
         
-        DistributedNotificationCenter.default().addObserver(self, selector: #selector(updateITunesDisplay), name:NSNotification.Name(rawValue: "com.apple.iTunes.playerInfo"), object: nil)
-        DistributedNotificationCenter.default().addObserver(self, selector: #selector(updateSpotifyDisplay), name:NSNotification.Name(rawValue: "com.spotify.client.PlaybackStateChanged"), object: nil)
+        DistributedNotificationCenter.default().addObserver(self, selector: #selector(iTunesNotificationHandler), name:NSNotification.Name(rawValue: "com.apple.iTunes.playerInfo"), object: nil)
+        DistributedNotificationCenter.default().addObserver(self, selector: #selector(spotifyNotificationHandler), name:NSNotification.Name(rawValue: "com.spotify.client.PlaybackStateChanged"), object: nil)
 
     }
 
@@ -220,27 +220,99 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    // Update functions
+    
+    // Notification handlers
+    
+    func iTunesNotificationHandler() {
+        
+        // If iTunes is closed
+        if iTunes.isRunning == false || iTunes.playerState == iTunesEPlS(rawValue: 0) {
+            print("iTunes closing")
+            // If Spotify is open => switch to spotify
+            if spotify.isRunning == true {
+                updateSpotifyDisplay()
+                print("switch to spotify")
+            // If Spotify is closed => switch to standby
+            } else {
+                musicBarStandBy()
+                print("standby")
+            }
+        
+        // If iTunes is running & playing
+        } else if iTunes.playerState == iTunesEPlSPlaying {
+            
+            // => Update display to iTunes
+            updateITunesDisplay()
+            
+            // If Spotify is open => pause
+            if spotify.isRunning == true {
+                spotify.pause() as Void
+            }
+        
+        // If iTunes is running & paused
+        } else {
+            
+            // If display is set on iTunes => Update display
+            if currentApp == "iTunes" {
+                updateITunesDisplay()
+            }
+            
+            // If display is not set on iTunes => do nothing
+        }
+    }
+    
+    func spotifyNotificationHandler() {
+        
+        // If spotify is closed
+        if spotify.isRunning == false || spotify.playerState == SpotifyEPlS(rawValue: 0) {
+            print("spotify closing")
+            // If iTunes is open => switch to iTunes
+            if iTunes.isRunning == true {
+                updateITunesDisplay()
+                print("switch to iTunes")
+            // If iTunes is closed => switch to standby
+            } else {
+                musicBarStandBy()
+                print("standby")
+            }
+            
+        // If spotify is running & playing
+        } else if spotify.playerState == SpotifyEPlSPlaying {
+            
+            // => Update display to spotify
+            updateSpotifyDisplay()
+            
+            // If iTunes is open => pause
+            if iTunes.isRunning == true {
+                iTunes.pause() as Void
+            }
+            
+        // If spotify is running & paused
+        } else {
+            
+            // If display is set on spotify => Update display
+            if currentApp == "spotify" {
+                updateSpotifyDisplay()
+            }
+            
+            // If display is not set on spotify => do nothing
+        }
+    }
+    
+    
+    // Update display functions
     
     func updateITunesDisplay() {
         
-        // Check if iTunes is playing and pause spotify (just in case)
-        if iTunesEPlSPlaying == iTunes.playerState {
-            spotify.pause() as Void
-        } else if currentApp == "spotify" {
-            return
-        }
-        
         let track: iTunesTrack = iTunes.currentTrack;
-        
+
         // Remove spotify display if necessary
         if currentApp == "spotify" {
+            currentApp = "iTunes"
             if let CurrentAppButton = CurrentAppSI.button {
-                currentApp = "iTunes"
                 CurrentAppButton.title = currentApp
             }
         }
-        
         
         // Play/pause button update
         if iTunesEPlSPlaying == iTunes.playerState {
@@ -302,45 +374,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func updateSpotifyDisplay() {
         
-        // Check if Spotify is playing and pause iTunes if necessary
-        if SpotifyEPlSPlaying == spotify.playerState {
-            iTunes.pause() as Void
-        } else if currentApp == "iTunes" {
-            return
-        }
+        let track: SpotifyTrack = spotify.currentTrack;
         
         // Remove iTunes display if necessary
         if currentApp == "iTunes" {
+            currentApp = "spotify"
             if let CurrentAppButton = CurrentAppSI.button {
-                currentApp = "spotify"
                 CurrentAppButton.title = currentApp
             }
-            if let Star1Button = Star1SI.button {
-                Star1Button.image = nil
-            }
-            Star1SI.length = 0
-            if let Star2Button = Star2SI.button {
-                Star2Button.image = nil
-            }
-            Star2SI.length = 0
-            if let Star3Button = Star3SI.button {
-                Star3Button.image = nil
-            }
-            Star3SI.length = 0
-            if let Star4Button = Star4SI.button {
-                Star4Button.image = nil
-            }
-            Star4SI.length = 0
-            if let Star5Button = Star5SI.button {
-                Star5Button.image = nil
-            }
-            Star5SI.length = 0
+            upddateITunesRatingDisplay()
         }
         
-        let track: SpotifyTrack = spotify.currentTrack;
-        
         // Play/pause button update
-        if SpotifyEPlSPlaying == spotify.playerState {
+        if spotify.playerState == SpotifyEPlSPlaying {
             if let PlayPauseButton = PlayPauseSI.button {
                 PlayPauseButton.image = NSImage(named: "Pause-Icon")
             }
@@ -383,6 +429,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
     }
     
+    func  musicBarStandBy() {
+        
+        currentApp = DefaultCurrentApp
+        
+        if let PlayPauseButton = PlayPauseSI.button {
+            PlayPauseButton.image = NSImage(named: "Power-Icon")
+        }
+        
+        title = ""
+        artist = ""
+        updateTrackDisplay()
+        
+        upddateITunesRatingDisplay()
+        
+    }
+    
     func updateTrackDisplay() {
         
         let NoTitleMessage : String = "Song title"
@@ -411,48 +473,75 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func upddateITunesRatingDisplay() {
         
-        let track: iTunesTrack = iTunes.currentTrack;
+        if iTunes.isRunning && currentApp == "iTunes" {
+            
+            let track: iTunesTrack = iTunes.currentTrack;
+            
+            Star1SI.length = 20
+            if let Star1Button = Star1SI.button {
+                if track.rating >= 20 {
+                    Star1Button.image = NSImage(named: "Star-Icon")
+                } else {
+                    Star1Button.image = NSImage(named: "StarEmpty-Icon")
+                }
+            }
+            Star2SI.length = 20
+            if let Star2Button = Star2SI.button {
+                if track.rating >= 40 {
+                    Star2Button.image = NSImage(named: "Star-Icon")
+                } else {
+                    Star2Button.image = NSImage(named: "StarEmpty-Icon")
+                }
+            }
+            Star3SI.length = 20
+            if let Star3Button = Star3SI.button {
+                if track.rating >= 60 {
+                    Star3Button.image = NSImage(named: "Star-Icon")
+                } else {
+                    Star3Button.image = NSImage(named: "StarEmpty-Icon")
+                }
+            }
+            Star4SI.length = 20
+            if let Star4Button = Star4SI.button {
+                if track.rating >= 80 {
+                    Star4Button.image = NSImage(named: "Star-Icon")
+                } else {
+                    Star4Button.image = NSImage(named: "StarEmpty-Icon")
+                }
+            }
+            Star5SI.length = 20
+            if let Star5Button = Star5SI.button {
+                if track.rating >= 100 {
+                    Star5Button.image = NSImage(named: "Star-Icon")
+                } else {
+                    Star5Button.image = NSImage(named: "StarEmpty-Icon")
+                }
+            }
+
+        } else {
+            
+            if let Star1Button = Star1SI.button {
+                Star1Button.image = nil
+            }
+            Star1SI.length = 0
+            if let Star2Button = Star2SI.button {
+                Star2Button.image = nil
+            }
+            Star2SI.length = 0
+            if let Star3Button = Star3SI.button {
+                Star3Button.image = nil
+            }
+            Star3SI.length = 0
+            if let Star4Button = Star4SI.button {
+                Star4Button.image = nil
+            }
+            Star4SI.length = 0
+            if let Star5Button = Star5SI.button {
+                Star5Button.image = nil
+            }
+            Star5SI.length = 0
+        }
         
-        Star1SI.length = 20
-        if let Star1Button = Star1SI.button {
-            if track.rating >= 20 {
-                Star1Button.image = NSImage(named: "Star-Icon")
-            } else {
-                Star1Button.image = NSImage(named: "StarEmpty-Icon")
-            }
-        }
-        Star2SI.length = 20
-        if let Star2Button = Star2SI.button {
-            if track.rating >= 40 {
-                Star2Button.image = NSImage(named: "Star-Icon")
-            } else {
-                Star2Button.image = NSImage(named: "StarEmpty-Icon")
-            }
-        }
-        Star3SI.length = 20
-        if let Star3Button = Star3SI.button {
-            if track.rating >= 60 {
-                Star3Button.image = NSImage(named: "Star-Icon")
-            } else {
-                Star3Button.image = NSImage(named: "StarEmpty-Icon")
-            }
-        }
-        Star4SI.length = 20
-        if let Star4Button = Star4SI.button {
-            if track.rating >= 80 {
-                Star4Button.image = NSImage(named: "Star-Icon")
-            } else {
-                Star4Button.image = NSImage(named: "StarEmpty-Icon")
-            }
-        }
-        Star5SI.length = 20
-        if let Star5Button = Star5SI.button {
-            if track.rating >= 100 {
-                Star5Button.image = NSImage(named: "Star-Icon")
-            } else {
-                Star5Button.image = NSImage(named: "StarEmpty-Icon")
-            }
-        }
     }
     
 }
