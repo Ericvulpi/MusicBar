@@ -22,24 +22,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     let DefaultCurrentApp: String = "iTunes"
     
-    let RightEdgeSI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
-    let Star5SI = NSStatusBar.system().statusItem(withLength: 20)
+    let MusicBarSI = NSStatusBar.system().statusItem(withLength: 20)
+    let menu = NSMenu()
+    let SwitchAppSI = NSStatusBar.system().statusItem(withLength: 48)
+    let FwdSI = NSStatusBar.system().statusItem(withLength: 18)
+    let PlayPauseSI = NSStatusBar.system().statusItem(withLength: 18)
+    let BackSI = NSStatusBar.system().statusItem(withLength: 26)
+    let ArtistBarSI = NSStatusBar.system().statusItem(withLength: 100)
+    let SeparatorSI = NSStatusBar.system().statusItem(withLength: 13)
+    let TitleBarSI = NSStatusBar.system().statusItem(withLength: 100)
+    let ArtworkSI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
+    let Star5SI = NSStatusBar.system().statusItem(withLength: 29)
     let Star4SI = NSStatusBar.system().statusItem(withLength: 20)
     let Star3SI = NSStatusBar.system().statusItem(withLength: 20)
     let Star2SI = NSStatusBar.system().statusItem(withLength: 20)
     let Star1SI = NSStatusBar.system().statusItem(withLength: 20)
-    let Star0SI = NSStatusBar.system().statusItem(withLength: 10)
-    let ArtistBarSI = NSStatusBar.system().statusItem(withLength: 100)
-    let Separator1SI = NSStatusBar.system().statusItem(withLength: 10)
-    let TitleBarSI = NSStatusBar.system().statusItem(withLength: 100)
-    let ArtworkSI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
-    let Separator2SI = NSStatusBar.system().statusItem(withLength: 10)
-    let FwdSI = NSStatusBar.system().statusItem(withLength: 20)
-    let PlayPauseSI = NSStatusBar.system().statusItem(withLength: 20)
-    let BackSI = NSStatusBar.system().statusItem(withLength: 20)
-    let CurrentAppSI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
-    let MusicBarSI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
-    let menu = NSMenu()
+    let Star0SI = NSStatusBar.system().statusItem(withLength: 6)
+
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
@@ -55,7 +54,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         MusicBarSI.menu = menu
         
         if let musicBarButton = MusicBarSI.button {
-            musicBarButton.image = NSImage(named: "Menu-Icon")
+            musicBarButton.image = NSImage(named: "Menu-IconB")
             musicBarButton.image?.isTemplate = true
         }
             
@@ -64,25 +63,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.shared().terminate), keyEquivalent: "q"))
         
         // Current music application button
-        if let CurrentAppButton = CurrentAppSI.button {
-            currentApp = DefaultCurrentApp
-            CurrentAppButton.title = currentApp
+        if let CurrentAppButton = SwitchAppSI.button {
             CurrentAppButton.action = #selector(switchMusicApp)
         }
         
         
         // Music controls setup
         if let BackButton = BackSI.button {
-            BackButton.image = NSImage(named: "Back-Icon")
+            BackButton.image = NSImage(named: "Back-IconB")
+            BackButton.image?.isTemplate = true
             BackButton.action = #selector(backFunc)
         }
         if let PlayPauseButton = PlayPauseSI.button {
-            PlayPauseButton.image = NSImage(named: "Play-Icon")
             PlayPauseButton.action = #selector(playpauseFunc)
-            PlayPauseButton.image?.isTemplate = true
         }
         if let FwdButton = FwdSI.button {
-            FwdButton.image = NSImage(named: "Fwd-Icon")
+            FwdButton.image = NSImage(named: "Fwd-IconB")
+            FwdButton.image?.isTemplate = true
             FwdButton.action = #selector(fwdFunc)
         }
         
@@ -90,50 +87,44 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let ArtistBarButton = ArtistBarSI.button {
             ArtistBarButton.alignment = .left
         }
-        if let Separator1Button = Separator1SI.button {
-            Separator1Button.image = NSImage(named: "Bar-Icon")
+        if let Separator1Button = SeparatorSI.button {
+            Separator1Button.image = NSImage(named: "Separator-IconB")
+            Separator1Button.image?.isTemplate = true
         }
         if let TitleBarButton = TitleBarSI.button {
             TitleBarButton.alignment = .left;
         }
-        if let Separator2Button = Separator2SI.button {
-            Separator2Button.image = NSImage(named: "Bar-Icon")
-        }
+
 
     
         // Rating control setup
         if let Star0Button = Star0SI.button {
-            Star0Button.image = NSImage(named: "Bar-Icon")
+            Star0Button.image = NSImage(named: "Left-IconB")
+            Star0Button.image?.isTemplate = true
             Star0Button.action = #selector(star0Func)
         }
         if let Star1Button = Star1SI.button {
-            Star1Button.image = NSImage(named: "StarEmpty-Icon")
             Star1Button.action = #selector(star1Func)
         }
         if let Star2Button = Star2SI.button {
-            Star2Button.image = NSImage(named: "StarEmpty-Icon")
             Star2Button.action = #selector(star2Func)
         }
         if let Star3Button = Star3SI.button {
-            Star3Button.image = NSImage(named: "StarEmpty-Icon")
             Star3Button.action = #selector(star3Func)
         }
         if let Star4Button = Star4SI.button {
-            Star4Button.image = NSImage(named: "StarEmpty-Icon")
             Star4Button.action = #selector(star4Func)
         }
         if let Star5Button = Star5SI.button {
-            Star5Button.image = NSImage(named: "StarEmpty-Icon")
             Star5Button.action = #selector(star5Func)
         }
-        if let RightEdgeButton = RightEdgeSI.button {
-            RightEdgeButton.image = NSImage(named: "Right-Logo")
-            RightEdgeButton.image?.isTemplate = true
-        }
+
         
-        // Update display
+        // Initialize display
         
-        updateITunesDisplay()
+        musicBarStandBy()
+        iTunesNotificationHandler()
+        spotifyNotificationHandler()
         
         
         // Setting up observers
@@ -309,8 +300,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Remove spotify display if necessary
         if currentApp == "spotify" {
             currentApp = "iTunes"
-            if let CurrentAppButton = CurrentAppSI.button {
-                CurrentAppButton.title = currentApp
+            if let CurrentAppButton = SwitchAppSI.button {
+                CurrentAppButton.image = NSImage(named: "iTunes-Spotify-IconB")
+                CurrentAppButton.image?.isTemplate = true
+                
             }
         }
         
@@ -318,10 +311,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if iTunesEPlSPlaying == iTunes.playerState {
             if let PlayPauseButton = PlayPauseSI.button {
                 PlayPauseButton.image = NSImage(named: "Pause-Icon")
+                PlayPauseButton.image?.isTemplate = true
             }
         } else {
             if let PlayPauseButton = PlayPauseSI.button {
                 PlayPauseButton.image = NSImage(named: "Play-Icon")
+                PlayPauseButton.image?.isTemplate = true
             }
         }
         
@@ -379,8 +374,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Remove iTunes display if necessary
         if currentApp == "iTunes" {
             currentApp = "spotify"
-            if let CurrentAppButton = CurrentAppSI.button {
-                CurrentAppButton.title = currentApp
+            if let CurrentAppButton = SwitchAppSI.button {
+                CurrentAppButton.image = NSImage(named: "Spotify-iTunes-IconB")
+                CurrentAppButton.image?.isTemplate = true
             }
             upddateITunesRatingDisplay()
         }
@@ -389,10 +385,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if spotify.playerState == SpotifyEPlSPlaying {
             if let PlayPauseButton = PlayPauseSI.button {
                 PlayPauseButton.image = NSImage(named: "Pause-Icon")
+                PlayPauseButton.image?.isTemplate = true
             }
         } else {
             if let PlayPauseButton = PlayPauseSI.button {
                 PlayPauseButton.image = NSImage(named: "Play-Icon")
+                PlayPauseButton.image?.isTemplate = true
             }
         }
         
@@ -433,8 +431,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         currentApp = DefaultCurrentApp
         
+        if let CurrentAppButton = SwitchAppSI.button {
+            CurrentAppButton.image = NSImage(named: "iTunes-Spotify-IconB")
+            CurrentAppButton.image?.isTemplate = true
+        }
+        
         if let PlayPauseButton = PlayPauseSI.button {
             PlayPauseButton.image = NSImage(named: "Power-Icon")
+            PlayPauseButton.image?.isTemplate = true
         }
         
         title = ""
@@ -480,41 +484,51 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             Star1SI.length = 20
             if let Star1Button = Star1SI.button {
                 if track.rating >= 20 {
-                    Star1Button.image = NSImage(named: "Star-Icon")
+                    Star1Button.image = NSImage(named: "Star-IconB")
+                    Star1Button.image?.isTemplate = true
                 } else {
-                    Star1Button.image = NSImage(named: "StarEmpty-Icon")
+                    Star1Button.image = NSImage(named: "StarEmpty-IconB")
+                    Star1Button.image?.isTemplate = true
                 }
             }
             Star2SI.length = 20
             if let Star2Button = Star2SI.button {
                 if track.rating >= 40 {
-                    Star2Button.image = NSImage(named: "Star-Icon")
+                    Star2Button.image = NSImage(named: "Star-IconB")
+                    Star2Button.image?.isTemplate = true
                 } else {
-                    Star2Button.image = NSImage(named: "StarEmpty-Icon")
+                    Star2Button.image = NSImage(named: "StarEmpty-IconB")
+                    Star2Button.image?.isTemplate = true
                 }
             }
             Star3SI.length = 20
             if let Star3Button = Star3SI.button {
                 if track.rating >= 60 {
-                    Star3Button.image = NSImage(named: "Star-Icon")
+                    Star3Button.image = NSImage(named: "Star-IconB")
+                    Star3Button.image?.isTemplate = true
                 } else {
-                    Star3Button.image = NSImage(named: "StarEmpty-Icon")
+                    Star3Button.image = NSImage(named: "StarEmpty-IconB")
+                    Star3Button.image?.isTemplate = true
                 }
             }
             Star4SI.length = 20
             if let Star4Button = Star4SI.button {
                 if track.rating >= 80 {
-                    Star4Button.image = NSImage(named: "Star-Icon")
+                    Star4Button.image = NSImage(named: "Star-IconB")
+                    Star4Button.image?.isTemplate = true
                 } else {
-                    Star4Button.image = NSImage(named: "StarEmpty-Icon")
+                    Star4Button.image = NSImage(named: "StarEmpty-IconB")
+                    Star4Button.image?.isTemplate = true
                 }
             }
-            Star5SI.length = 20
+            Star5SI.length = 29
             if let Star5Button = Star5SI.button {
                 if track.rating >= 100 {
-                    Star5Button.image = NSImage(named: "Star-Icon")
+                    Star5Button.image = NSImage(named: "Star5-IconB")
+                    Star5Button.image?.isTemplate = true
                 } else {
-                    Star5Button.image = NSImage(named: "StarEmpty-Icon")
+                    Star5Button.image = NSImage(named: "StarEmpty5-IconB")
+                    Star5Button.image?.isTemplate = true
                 }
             }
 
