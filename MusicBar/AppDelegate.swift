@@ -32,18 +32,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let SeparatorSI = NSStatusBar.system().statusItem(withLength: 13)
     let TitleBarSI = NSStatusBar.system().statusItem(withLength: 100)
     let ArtworkSI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
-    let Star5SI = NSStatusBar.system().statusItem(withLength: 29)
-    let Star4SI = NSStatusBar.system().statusItem(withLength: 20)
-    let Star3SI = NSStatusBar.system().statusItem(withLength: 20)
-    let Star2SI = NSStatusBar.system().statusItem(withLength: 20)
-    let Star1SI = NSStatusBar.system().statusItem(withLength: 20)
-    let Star0SI = NSStatusBar.system().statusItem(withLength: 6)
+    let Star5SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
+    let Star4SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
+    let Star3SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
+    let Star2SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
+    let Star1SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
+    let Star0SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
 
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
         
         // Target applications
+        
         iTunes = SBApplication.init(bundleIdentifier: "com.apple.iTunes")
         spotify = SBApplication.init(bundleIdentifier: "com.spotify.client")
         
@@ -58,7 +59,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             musicBarButton.image?.isTemplate = true
         }
             
-        menu.addItem(NSMenuItem(title: "Play/Pause", action: #selector(playpauseFunc), keyEquivalent: "P"))
+        menu.addItem(NSMenuItem(title: "Search YouTube", action: #selector(searchYouTube), keyEquivalent: "Y"))
+        menu.addItem(NSMenuItem(title: "Search iTunes Store", action: #selector(searchITunesStore), keyEquivalent: "I"))
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.shared().terminate), keyEquivalent: "q"))
         
@@ -150,6 +152,79 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             spotify.pause() as Void
         }
+    }
+    
+    func searchYouTube(sender:NSStatusBar) {
+        var SearchString: String = artist + "+" + title
+        SearchString = SearchString.replacingOccurrences(of: " ", with: "+")
+        SearchString = SearchString.replacingOccurrences(of: "-", with: "+")
+        NSWorkspace.shared().open(URL(string: "https://www.youtube.com/results?search_query=" + SearchString)!)
+    }
+    func searchITunesStore(sender:NSStatusBar) {
+        var SearchString: String = artist + "+" + title
+        SearchString = SearchString.replacingOccurrences(of: " ", with: "+")
+        SearchString = SearchString.replacingOccurrences(of: "-", with: "+")
+        let SearchURLRequest: URLRequest = URLRequest(url: URL(string: "https://itunes.apple.com/search?country=fr&term=" + SearchString)!)
+        print(SearchURLRequest)
+        
+        let search = URLSession.shared.dataTask(with: SearchURLRequest, completionHandler: {
+            (data, response, error) in
+            
+            if error != nil {
+                print(error!.localizedDescription)
+                
+            } else {
+                do {
+                    if let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any] {
+                        
+                        if json["resultCount"] as! NSInteger > 0 {
+                            var trackURL: NSString = ((json["results"] as! NSArray)[0] as! NSDictionary)["trackViewUrl"] as! NSString
+                            trackURL =  trackURL.replacingOccurrences(of: "https://", with: "itms://") as NSString
+
+                            NSWorkspace.shared().open(URL(string: "\(trackURL)&app=itunes" as String)!)
+                        }
+                        
+
+                    }
+                    
+                } catch {
+                    print("error in JSONSerialization")
+                }
+                
+                
+            }
+            
+        })
+
+        search.resume()
+        
+       /*
+            if let searchResult: NSDictionary = try JSONSerialization.jsonObject(with: data!) as? NSDictionary {
+                
+            }
+            
+            if (searchResult["resultCount"] as AnyObject) > 0 {
+                DispatchQueue.main.async(execute: { () -> Void in
+                    var songArray: NSArray = songs["results"] as! NSArray
+                    var songDictionary: NSDictionary = songArray[0] as! NSDictionary
+                    var songURL: NSString = songDictionary["trackViewUrl"] as! NSString
+                    songURL =  songURL.replacingOccurrences(of: "https://", with: "itms://") as NSString
+                    print("\(songURL)")
+                    NSWorkspace.shared().open(URL(string: "\(songURL)&app=itunes" as String)!)
+                })
+            }
+            
+            catch let error {
+                failure(error: error)
+            }
+        }
+        
+        search.resume()
+        
+        print(witness)
+        //SearchString = SearchString.replacingOccurrences(of: "https", with: "itms")
+        //NSWorkspace.shared().open(URL(string: "\(SearchString)&app=itunes")!)
+        */
     }
     
     func playpauseFunc(sender: NSStatusBar) {
@@ -480,6 +555,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if iTunes.isRunning && currentApp == "iTunes" {
             
             let track: iTunesTrack = iTunes.currentTrack;
+
+            
+            Star0SI.length = 6
+            if let Star0Button = Star0SI.button {
+                Star0Button.image = NSImage(named: "Left-IconB")
+                Star0Button.image?.isTemplate = true
+            }
             
             Star1SI.length = 20
             if let Star1Button = Star1SI.button {
@@ -534,6 +616,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         } else {
             
+            Star0SI.length = 11
+            if let Star0Button = Star0SI.button {
+                Star0Button.image = NSImage(named: "LeftAlt-IconB")
+                Star0Button.image?.isTemplate = true
+            }
             if let Star1Button = Star1SI.button {
                 Star1Button.image = nil
             }
