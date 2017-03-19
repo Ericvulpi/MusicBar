@@ -8,6 +8,7 @@
 
 import Cocoa
 import AppleScriptKit
+import Foundation
 import ScriptingBridge
 
 @NSApplicationMain
@@ -38,6 +39,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let Star2SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     let Star1SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     let Star0SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
+    
+    let Popover = NSPopover()
+    var eventMonitor: EventMonitor?
 
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -62,9 +66,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(NSMenuItem(title: "Search YouTube", action: #selector(searchYouTube), keyEquivalent: "Y"))
         menu.addItem(NSMenuItem(title: "Search iTunes Store", action: #selector(searchITunesStore), keyEquivalent: "I"))
         menu.addItem(NSMenuItem.separator())
+        menu.addItem(NSMenuItem(title: "Display test", action: #selector(displayTest), keyEquivalent: "T"))
+        menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.shared().terminate), keyEquivalent: "q"))
         
-        // Current music application button
+        // Switch music application button
         if let CurrentAppButton = SwitchAppSI.button {
             CurrentAppButton.action = #selector(switchMusicApp)
         }
@@ -120,6 +126,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let Star5Button = Star5SI.button {
             Star5Button.action = #selector(star5Func)
         }
+        
+        // Popover control setup
+        
+        eventMonitor = EventMonitor(mask: [.leftMouseDown, .rightMouseDown]) { [unowned self] event in
+            if self.Popover.isShown {
+                self.closePopover(event)
+            }
+        }
+        eventMonitor?.start()
 
         
         // Initialize display
@@ -154,25 +169,34 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    func searchYouTube(sender:NSStatusBar) {
-        var SearchString: String = artist + "+" + title
+    func searchString() -> String {
+        var SearchString: String = ""
+        SearchString = artist + "+" + title
         SearchString = SearchString.replacingOccurrences(of: " ", with: "+")
         SearchString = SearchString.replacingOccurrences(of: "-", with: "+")
+        SearchString = SearchString.replacingOccurrences(of: "\"", with: "+")
+        SearchString = SearchString.replacingOccurrences(of: ":", with: "+")
+        SearchString = SearchString.replacingOccurrences(of: "++", with: "+")
+        SearchString = SearchString.folding(options: .diacriticInsensitive, locale: .current)
+        SearchString = SearchString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+        return SearchString
+    }
+    
+    func searchYouTube(sender:NSStatusBar) {
+        let SearchString: String = searchString()
         NSWorkspace.shared().open(URL(string: "https://www.youtube.com/results?search_query=" + SearchString)!)
     }
+    
     func searchITunesStore(sender:NSStatusBar) {
-        var SearchString: String = artist + "+" + title
-        SearchString = SearchString.replacingOccurrences(of: " ", with: "+")
-        SearchString = SearchString.replacingOccurrences(of: "-", with: "+")
+        
+        let SearchString: String = searchString()
         let SearchURLRequest: URLRequest = URLRequest(url: URL(string: "https://itunes.apple.com/search?country=fr&term=" + SearchString)!)
-        print(SearchURLRequest)
         
         let search = URLSession.shared.dataTask(with: SearchURLRequest, completionHandler: {
             (data, response, error) in
             
             if error != nil {
                 print(error!.localizedDescription)
-                
             } else {
                 do {
                     if let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any] {
@@ -182,8 +206,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                             trackURL =  trackURL.replacingOccurrences(of: "https://", with: "itms://") as NSString
 
                             NSWorkspace.shared().open(URL(string: "\(trackURL)&app=itunes" as String)!)
+                        } else {
+                            DispatchQueue.main.async {
+                                self.showPopover(message: "Track not found in iTunes")
+                            }
                         }
-                        
 
                     }
                     
@@ -198,33 +225,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         search.resume()
         
-       /*
-            if let searchResult: NSDictionary = try JSONSerialization.jsonObject(with: data!) as? NSDictionary {
-                
-            }
-            
-            if (searchResult["resultCount"] as AnyObject) > 0 {
-                DispatchQueue.main.async(execute: { () -> Void in
-                    var songArray: NSArray = songs["results"] as! NSArray
-                    var songDictionary: NSDictionary = songArray[0] as! NSDictionary
-                    var songURL: NSString = songDictionary["trackViewUrl"] as! NSString
-                    songURL =  songURL.replacingOccurrences(of: "https://", with: "itms://") as NSString
-                    print("\(songURL)")
-                    NSWorkspace.shared().open(URL(string: "\(songURL)&app=itunes" as String)!)
-                })
-            }
-            
-            catch let error {
-                failure(error: error)
-            }
-        }
-        
-        search.resume()
-        
-        print(witness)
-        //SearchString = SearchString.replacingOccurrences(of: "https", with: "itms")
-        //NSWorkspace.shared().open(URL(string: "\(SearchString)&app=itunes")!)
-        */
     }
     
     func playpauseFunc(sender: NSStatusBar) {
@@ -287,21 +287,44 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     
+    // Popover management
+    
+    func showPopover(message: String) {
+        if let button = MusicBarSI.button {
+            if let messageViewController = MessageViewController(nibName: "MessageViewController", bundle: nil) {
+                Popover.contentViewController = messageViewController.displayMessage(message: message)
+            }
+            Popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+        }
+        eventMonitor?.start()
+    }
+    
+    func closePopover(_ sender: AnyObject?) {
+        Popover.performClose(sender)
+        eventMonitor?.stop()
+    }
+    
+    func displayTest () {
+        if let button = MusicBarSI.button {
+            Popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+        }
+        eventMonitor?.start()
+    }
+
+    
+    
     // Notification handlers
     
     func iTunesNotificationHandler() {
         
         // If iTunes is closed
         if iTunes.isRunning == false || iTunes.playerState == iTunesEPlS(rawValue: 0) {
-            print("iTunes closing")
             // If Spotify is open => switch to spotify
             if spotify.isRunning == true {
                 updateSpotifyDisplay()
-                print("switch to spotify")
             // If Spotify is closed => switch to standby
             } else {
                 musicBarStandBy()
-                print("standby")
             }
         
         // If iTunes is running & playing
@@ -331,15 +354,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // If spotify is closed
         if spotify.isRunning == false || spotify.playerState == SpotifyEPlS(rawValue: 0) {
-            print("spotify closing")
             // If iTunes is open => switch to iTunes
             if iTunes.isRunning == true {
                 updateITunesDisplay()
-                print("switch to iTunes")
             // If iTunes is closed => switch to standby
             } else {
                 musicBarStandBy()
-                print("standby")
             }
             
         // If spotify is running & playing
@@ -537,7 +557,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         if title != "" {
             TitleButton?.title = title!;
-            //print(TitleButton!.intrinsicContentSize)
         } else {
             TitleButton?.attributedTitle = NSAttributedString(string: NoTitleMessage, attributes: [NSForegroundColorAttributeName: NSColor.gray, NSParagraphStyleAttributeName: titleStyle])
         }

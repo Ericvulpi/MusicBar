@@ -691,5 +691,40 @@
             </objects>
             <point key="canvasLocation" x="75" y="655"/>
         </scene>
+        <!--Message View Controller-->
+        <scene sceneID="OyO-yr-7yh">
+            <objects>
+                <viewController storyboardIdentifier="MessageViewController" id="aNh-HU-NvE" customClass="MessageViewController" customModule="MusicBar" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" misplaced="YES" id="yyz-Nx-Wha">
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="50"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="751" verticalHuggingPriority="751" misplaced="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3dm-ma-ab8">
+                                <rect key="frame" x="96" y="16" width="109" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Error" id="miV-dp-BDm">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    <connections>
+                                        <binding destination="aNh-HU-NvE" name="value" keyPath="Message" id="RHb-9e-XQ4"/>
+                                    </connections>
+                                </textFieldCell>
+                                <connections>
+                                    <binding destination="aNh-HU-NvE" name="value" keyPath="Message" id="rSF-GK-vyv"/>
+                                </connections>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="3dm-ma-ab8" secondAttribute="trailing" constant="20" symbolic="YES" id="9VI-Wu-BIz"/>
+                            <constraint firstItem="3dm-ma-ab8" firstAttribute="leading" secondItem="yyz-Nx-Wha" secondAttribute="leading" constant="20" symbolic="YES" id="eUY-Cg-ZTx"/>
+                            <constraint firstAttribute="bottom" secondItem="3dm-ma-ab8" secondAttribute="bottom" constant="20" symbolic="YES" id="gws-Et-jxm"/>
+                            <constraint firstItem="3dm-ma-ab8" firstAttribute="top" secondItem="yyz-Nx-Wha" secondAttribute="top" constant="20" symbolic="YES" id="yuR-r6-G2s"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="N8d-wI-9Xg" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="75" y="1007"/>
+        </scene>
     </scenes>
 </document>

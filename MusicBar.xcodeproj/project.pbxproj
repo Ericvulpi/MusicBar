@@ -13,6 +13,8 @@
 		07BFF1A31E3C1C78008DC441 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07BFF1A11E3C1C78008DC441 /* Main.storyboard */; };
 		07BFF1AE1E3C1C78008DC441 /* MusicBarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BFF1AD1E3C1C78008DC441 /* MusicBarTests.swift */; };
 		07BFF1B91E3C1C78008DC441 /* MusicBarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BFF1B81E3C1C78008DC441 /* MusicBarUITests.swift */; };
+		07FDD6741E7DAC15002C2D70 /* EventMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FDD6731E7DAC15002C2D70 /* EventMonitor.swift */; };
+		07FDD6771E7DB921002C2D70 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FDD6751E7DB921002C2D70 /* MessageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +50,8 @@
 		07BFF1B41E3C1C78008DC441 /* MusicBarUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusicBarUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		07BFF1B81E3C1C78008DC441 /* MusicBarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicBarUITests.swift; sourceTree = "<group>"; };
 		07BFF1BA1E3C1C78008DC441 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		07FDD6731E7DAC15002C2D70 /* EventMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventMonitor.swift; sourceTree = "<group>"; };
+		07FDD6751E7DB921002C2D70 /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +105,8 @@
 			isa = PBXGroup;
 			children = (
 				07BFF19B1E3C1C78008DC441 /* AppDelegate.swift */,
+				07FDD6751E7DB921002C2D70 /* MessageViewController.swift */,
+				07FDD6731E7DAC15002C2D70 /* EventMonitor.swift */,
 				076536A91E621D2E00394DFD /* iTunes.h */,
 				076536AA1E621D8400394DFD /* Spotify.h */,
 				076536AD1E6225F000394DFD /* MusicBar-Bridging-Header.h */,
@@ -263,6 +269,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				07BFF19C1E3C1C78008DC441 /* AppDelegate.swift in Sources */,
+				07FDD6771E7DB921002C2D70 /* MessageViewController.swift in Sources */,
+				07FDD6741E7DAC15002C2D70 /* EventMonitor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
