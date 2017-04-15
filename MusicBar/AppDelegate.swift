@@ -29,9 +29,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let FwdSI = NSStatusBar.system().statusItem(withLength: 18)
     let PlayPauseSI = NSStatusBar.system().statusItem(withLength: 18)
     let BackSI = NSStatusBar.system().statusItem(withLength: 26)
-    let ArtistBarSI = NSStatusBar.system().statusItem(withLength: 100)
-    let SeparatorSI = NSStatusBar.system().statusItem(withLength: 13)
-    let TitleBarSI = NSStatusBar.system().statusItem(withLength: 100)
+    let ArtistBarSI = NSStatusBar.system().statusItem(withLength: -1)
+    let SeparatorSI = NSStatusBar.system().statusItem(withLength: -1)
+    let TitleBarSI = NSStatusBar.system().statusItem(withLength: -1)
     let ArtworkSI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     let Star5SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     let Star4SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
@@ -63,12 +63,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             musicBarButton.image?.isTemplate = true
         }
             
-        menu.addItem(NSMenuItem(title: "Search YouTube", action: #selector(searchYouTube), keyEquivalent: "Y"))
-        menu.addItem(NSMenuItem(title: "Search iTunes Store", action: #selector(searchITunesStore), keyEquivalent: "I"))
+        menu.addItem(NSMenuItem(title: "Search YouTube", action: #selector(searchYouTube), keyEquivalent: ""))
+        menu.addItem(NSMenuItem(title: "Search iTunes Store", action: #selector(searchITunesStore), keyEquivalent: ""))
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(NSMenuItem(title: "Display test", action: #selector(displayTest), keyEquivalent: "T"))
+        menu.addItem(NSMenuItem(title: "Track information", action: #selector(toggleTrackInfo), keyEquivalent: ""))
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.shared().terminate), keyEquivalent: "q"))
+        menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.shared().terminate), keyEquivalent: ""))
+        
+        // Initiate settings
+        
+        //UserDefaults.standard.set(false, forKey: "viewTrackInfo")
+        
+        if UserDefaults.standard.bool(forKey: "viewTrackInfo") {
+            menu.item(withTitle: "Track information")?.state = 1
+        } else {
+            menu.item(withTitle: "Track information")?.state = 0
+        }
+        
+        
         
         // Switch music application button
         if let CurrentAppButton = SwitchAppSI.button {
@@ -102,7 +114,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let TitleBarButton = TitleBarSI.button {
             TitleBarButton.alignment = .left;
         }
-
 
     
         // Rating control setup
@@ -155,19 +166,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
-    // Buttons functions
     
-    func switchMusicApp(sender:NSStatusBar) {
-        if currentApp == "iTunes" {
-            iTunes.pause() as Void
-            spotify.play() as Void
-        } else if currentApp == "spotify" {
-            if iTunesEPlSPlaying != iTunes.playerState {
-                iTunes.playpause()
-            }
-            spotify.pause() as Void
-        }
-    }
+    // Menu buttons functions
     
     func searchString() -> String {
         var SearchString: String = ""
@@ -225,6 +225,31 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         search.resume()
         
+    }
+    
+    func toggleTrackInfo() {
+        if UserDefaults.standard.bool(forKey: "viewTrackInfo") {
+            UserDefaults.standard.set(false, forKey: "viewTrackInfo")
+            menu.item(withTitle: "Track information")?.state = 0
+        } else {
+            UserDefaults.standard.set(true, forKey: "viewTrackInfo")
+            menu.item(withTitle: "Track information")?.state = 1
+        }
+        updateTrackDisplay()
+    }
+    
+    // Menu bar button functions
+    
+    func switchMusicApp(sender:NSStatusBar) {
+        if currentApp == "iTunes" {
+            iTunes.pause() as Void
+            spotify.play() as Void
+        } else if currentApp == "spotify" {
+            if iTunesEPlSPlaying != iTunes.playerState {
+                iTunes.playpause()
+            }
+            spotify.pause() as Void
+        }
     }
     
     func playpauseFunc(sender: NSStatusBar) {
@@ -546,25 +571,39 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func updateTrackDisplay() {
         
-        let NoTitleMessage : String = "Song title"
-        let NoArtistMessage : String = "Song artist"
-        
-        let TitleButton = TitleBarSI.button
-        let ArtistButton = ArtistBarSI.button
-        
-        let titleStyle = NSMutableParagraphStyle()
-        titleStyle.alignment = NSTextAlignment.center
-        
-        if title != "" {
-            TitleButton?.title = title!;
+        if UserDefaults.standard.bool(forKey: "viewTrackInfo") {
+            
+            TitleBarSI.length = 100
+            SeparatorSI.length = 13
+            ArtistBarSI.length = 100
+            
+            let NoTitleMessage : String = "Song title"
+            let NoArtistMessage : String = "Song artist"
+            
+            let TitleButton = TitleBarSI.button
+            let ArtistButton = ArtistBarSI.button
+            
+            let titleStyle = NSMutableParagraphStyle()
+            titleStyle.alignment = NSTextAlignment.center
+            
+            if title != "" {
+                TitleButton?.title = title!;
+            } else {
+                TitleButton?.attributedTitle = NSAttributedString(string: NoTitleMessage, attributes: [NSForegroundColorAttributeName: NSColor.gray, NSParagraphStyleAttributeName: titleStyle])
+            }
+            
+            if artist != ""{
+                ArtistButton?.title = artist!;
+            } else {
+                ArtistButton?.attributedTitle = NSAttributedString(string: NoArtistMessage, attributes: [NSForegroundColorAttributeName: NSColor.gray, NSParagraphStyleAttributeName: titleStyle])
+            }
+            
         } else {
-            TitleButton?.attributedTitle = NSAttributedString(string: NoTitleMessage, attributes: [NSForegroundColorAttributeName: NSColor.gray, NSParagraphStyleAttributeName: titleStyle])
-        }
-        
-        if artist != ""{
-            ArtistButton?.title = artist!;
-        } else {
-            ArtistButton?.attributedTitle = NSAttributedString(string: NoArtistMessage, attributes: [NSForegroundColorAttributeName: NSColor.gray, NSParagraphStyleAttributeName: titleStyle])
+            
+            TitleBarSI.length = 0
+            SeparatorSI.length = 0
+            ArtistBarSI.length = 0
+            
         }
     }
     
