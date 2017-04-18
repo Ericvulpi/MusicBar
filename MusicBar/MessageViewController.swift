@@ -10,7 +10,7 @@ import Cocoa
 
 class MessageViewController: NSViewController {
 
-    dynamic var Message: String = "Test Error"
+    dynamic var Message: String = "Search Error"
     
     func displayMessage (message: String) -> MessageViewController {
         let storyboard = NSStoryboard(name: "Main", bundle: nil)

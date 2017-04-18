@@ -10,6 +10,7 @@ import Cocoa
 import AppleScriptKit
 import Foundation
 import ScriptingBridge
+import ServiceManagement
 
 @NSApplicationMain
 
@@ -20,25 +21,32 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var currentApp: String!
     var title: String!
     var artist: String!
+    var IconDic = [String: String]()
     
-    let DefaultCurrentApp: String = "iTunes"
-    
-    let MusicBarSI = NSStatusBar.system().statusItem(withLength: 20)
     let menu = NSMenu()
-    let SwitchAppSI = NSStatusBar.system().statusItem(withLength: 48)
+    let viewSettingsSubmenu = NSMenu()
+    let otherSettingsSubmenu = NSMenu()
+    let DefaultCurrentApp: String = "iTunes"
+
+    let MusicBarSI = NSStatusBar.system().statusItem(withLength: 16)
+    let Separator1SI = NSStatusBar.system().statusItem(withLength: 10)
     let FwdSI = NSStatusBar.system().statusItem(withLength: 18)
     let PlayPauseSI = NSStatusBar.system().statusItem(withLength: 18)
-    let BackSI = NSStatusBar.system().statusItem(withLength: 26)
+    let BackSI = NSStatusBar.system().statusItem(withLength: 18)
+    let Separator2SI = NSStatusBar.system().statusItem(withLength: -1)
+    let SwitchAppSI = NSStatusBar.system().statusItem(withLength: -1)
+    let TextEdgeRightSI = NSStatusBar.system().statusItem(withLength: -1)
     let ArtistBarSI = NSStatusBar.system().statusItem(withLength: -1)
-    let SeparatorSI = NSStatusBar.system().statusItem(withLength: -1)
+    let Separator3SI = NSStatusBar.system().statusItem(withLength: -1)
     let TitleBarSI = NSStatusBar.system().statusItem(withLength: -1)
+    let TextEdgeLeftSI = NSStatusBar.system().statusItem(withLength: -1)
     let ArtworkSI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     let Star5SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     let Star4SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     let Star3SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     let Star2SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     let Star1SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
-    let Star0SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
+    let LeftEdgeSI = NSStatusBar.system().statusItem(withLength: 6)
     
     let Popover = NSPopover()
     var eventMonitor: EventMonitor?
@@ -58,29 +66,57 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // MusicBar Button and menu setup
         MusicBarSI.menu = menu
         
-        if let musicBarButton = MusicBarSI.button {
-            musicBarButton.image = NSImage(named: "Menu-IconB")
-            musicBarButton.image?.isTemplate = true
-        }
-            
         menu.addItem(NSMenuItem(title: "Search YouTube", action: #selector(searchYouTube), keyEquivalent: ""))
         menu.addItem(NSMenuItem(title: "Search iTunes Store", action: #selector(searchITunesStore), keyEquivalent: ""))
+        menu.addItem(NSMenuItem(title: "Search Last.fm", action: #selector(searchLastFM), keyEquivalent: ""))
+        
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(NSMenuItem(title: "Track information", action: #selector(toggleTrackInfo), keyEquivalent: ""))
+        
+        menu.addItem(NSMenuItem(title: "View Settings", action: nil, keyEquivalent: ""))
+        menu.item(withTitle: "View Settings")?.submenu = viewSettingsSubmenu
+        viewSettingsSubmenu.addItem(NSMenuItem(title: "Black Style", action: #selector(toggleBlackStyle), keyEquivalent: ""))
+        viewSettingsSubmenu.addItem(NSMenuItem(title: "Switch Player Button", action: #selector(toggleSwitchAppButton), keyEquivalent: ""))
+        viewSettingsSubmenu.addItem(NSMenuItem(title: "Track information", action: #selector(toggleTrackInfo), keyEquivalent: ""))
+        viewSettingsSubmenu.addItem(NSMenuItem(title: "iTunes Ratings", action: #selector(toggleRatings), keyEquivalent: ""))
+        
+        menu.addItem(NSMenuItem(title: "Other Settings", action: nil, keyEquivalent: ""))
+        menu.item(withTitle: "Other Settings")?.submenu = otherSettingsSubmenu
+        otherSettingsSubmenu.addItem(NSMenuItem(title: "Auto launch at login", action: #selector(toggleAutoLaunch), keyEquivalent: ""))
+        
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.shared().terminate), keyEquivalent: ""))
         
-        // Initiate settings
+        // Initiate setting buttons
         
-        //UserDefaults.standard.set(false, forKey: "viewTrackInfo")
-        
-        if UserDefaults.standard.bool(forKey: "viewTrackInfo") {
-            menu.item(withTitle: "Track information")?.state = 1
+        if UserDefaults.standard.bool(forKey: "MusicBarBlackStyle") {
+            viewSettingsSubmenu.item(withTitle: "Black Style")?.state = 1
         } else {
-            menu.item(withTitle: "Track information")?.state = 0
+            viewSettingsSubmenu.item(withTitle: "Black Style")?.state = 0
         }
         
+        if UserDefaults.standard.bool(forKey: "MusicBarSwitchApp") {
+            viewSettingsSubmenu.item(withTitle: "Switch Player Button")?.state = 1
+        } else {
+            viewSettingsSubmenu.item(withTitle: "Switch Player Button")?.state = 0
+        }
         
+        if UserDefaults.standard.bool(forKey: "MusicBarTrackInfo") {
+            viewSettingsSubmenu.item(withTitle: "Track information")?.state = 1
+        } else {
+            viewSettingsSubmenu.item(withTitle: "Track information")?.state = 0
+        }
+        
+        if UserDefaults.standard.bool(forKey: "MusicBarViewRatings") {
+            viewSettingsSubmenu.item(withTitle: "iTunes Ratings")?.state = 1
+        } else {
+            viewSettingsSubmenu.item(withTitle: "iTunes Ratings")?.state = 0
+        }
+        
+        if UserDefaults.standard.bool(forKey: "MusicBarAutoLaunch") {
+            otherSettingsSubmenu.item(withTitle: "Auto launch at login")?.state = 1
+        } else {
+            otherSettingsSubmenu.item(withTitle: "Auto launch at login")?.state = 0
+        }
         
         // Switch music application button
         if let CurrentAppButton = SwitchAppSI.button {
@@ -90,37 +126,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Music controls setup
         if let BackButton = BackSI.button {
-            BackButton.image = NSImage(named: "Back-IconB")
-            BackButton.image?.isTemplate = true
             BackButton.action = #selector(backFunc)
         }
         if let PlayPauseButton = PlayPauseSI.button {
             PlayPauseButton.action = #selector(playpauseFunc)
         }
         if let FwdButton = FwdSI.button {
-            FwdButton.image = NSImage(named: "Fwd-IconB")
-            FwdButton.image?.isTemplate = true
             FwdButton.action = #selector(fwdFunc)
-        }
-        
-        // Song & artist display
-        if let ArtistBarButton = ArtistBarSI.button {
-            ArtistBarButton.alignment = .left
-        }
-        if let Separator1Button = SeparatorSI.button {
-            Separator1Button.image = NSImage(named: "Separator-IconB")
-            Separator1Button.image?.isTemplate = true
-        }
-        if let TitleBarButton = TitleBarSI.button {
-            TitleBarButton.alignment = .left;
         }
 
     
         // Rating control setup
-        if let Star0Button = Star0SI.button {
-            Star0Button.image = NSImage(named: "Left-IconB")
-            Star0Button.image?.isTemplate = true
-            Star0Button.action = #selector(star0Func)
+        if let LeftEdge = LeftEdgeSI.button {
+            LeftEdge.action = #selector(leftEdgeFunc)
         }
         if let Star1Button = Star1SI.button {
             Star1Button.action = #selector(star1Func)
@@ -150,10 +168,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Initialize display
         
-        musicBarStandBy()
-        iTunesNotificationHandler()
-        spotifyNotificationHandler()
-        
+        initializeDisplay()
         
         // Setting up observers
         
@@ -166,6 +181,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
+    
     
     // Menu buttons functions
     
@@ -227,16 +243,99 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
     }
     
-    func toggleTrackInfo() {
-        if UserDefaults.standard.bool(forKey: "viewTrackInfo") {
-            UserDefaults.standard.set(false, forKey: "viewTrackInfo")
-            menu.item(withTitle: "Track information")?.state = 0
+    func searchLastFM() {
+        let SearchString: String = searchString()
+        NSWorkspace.shared().open(URL(string: "https://www.last.fm/search?q=" + SearchString)!)
+    }
+    
+    func toggleBlackStyle() {
+        if UserDefaults.standard.bool(forKey: "MusicBarBlackStyle") {
+            UserDefaults.standard.set(false, forKey: "MusicBarBlackStyle")
+            viewSettingsSubmenu.item(withTitle: "Black Style")?.state = 0
         } else {
-            UserDefaults.standard.set(true, forKey: "viewTrackInfo")
-            menu.item(withTitle: "Track information")?.state = 1
+            UserDefaults.standard.set(true, forKey: "MusicBarBlackStyle")
+            viewSettingsSubmenu.item(withTitle: "Black Style")?.state = 1
+        }
+        initializeDisplay()
+    }
+    
+    func toggleSwitchAppButton() {
+        if UserDefaults.standard.bool(forKey: "MusicBarSwitchApp") {
+            UserDefaults.standard.set(false, forKey: "MusicBarSwitchApp")
+            viewSettingsSubmenu.item(withTitle: "Switch Player Button")?.state = 0
+        } else {
+            UserDefaults.standard.set(true, forKey: "MusicBarSwitchApp")
+            viewSettingsSubmenu.item(withTitle: "Switch Player Button")?.state = 1
+        }
+        updateSwitchAppDisplay()
+    }
+    
+    func toggleTrackInfo() {
+        if UserDefaults.standard.bool(forKey: "MusicBarTrackInfo") {
+            UserDefaults.standard.set(false, forKey: "MusicBarTrackInfo")
+            viewSettingsSubmenu.item(withTitle: "Track information")?.state = 0
+        } else {
+            UserDefaults.standard.set(true, forKey: "MusicBarTrackInfo")
+            viewSettingsSubmenu.item(withTitle: "Track information")?.state = 1
         }
         updateTrackDisplay()
     }
+    
+    func toggleRatings() {
+        if UserDefaults.standard.bool(forKey: "MusicBarViewRatings") {
+            UserDefaults.standard.set(false, forKey: "MusicBarViewRatings")
+            viewSettingsSubmenu.item(withTitle: "iTunes Ratings")?.state = 0
+        } else {
+            UserDefaults.standard.set(true, forKey: "MusicBarViewRatings")
+            viewSettingsSubmenu.item(withTitle: "iTunes Ratings")?.state = 1
+        }
+        
+        updateITunesRatingDisplay()
+    }
+    
+    func toggleAutoLaunch() {
+        if UserDefaults.standard.bool(forKey: "MusicBarAutoLaunch") {
+            if SMLoginItemSetEnabled("com.Tungsten.MusicBarHelper" as CFString, false) {
+                UserDefaults.standard.set(false, forKey: "MusicBarAutoLaunch")
+                otherSettingsSubmenu.item(withTitle: "Auto launch at login")?.state = 0
+            } else {
+                self.showPopover(message: "Failed to remove login item")
+            }
+        } else {
+            if SMLoginItemSetEnabled("com.Tungsten.MusicBarHelper" as CFString, true) {
+                UserDefaults.standard.set(false, forKey: "MusicBarAutoLaunch")
+                otherSettingsSubmenu.item(withTitle: "Auto launch at login")?.state = 1
+            } else {
+                self.showPopover(message: "Failed to add login item")
+            }
+        }
+    }
+
+    
+    // Popover management
+    
+    func showPopover(message: String) {
+        if let button = MusicBarSI.button {
+            if let messageViewController = MessageViewController(nibName: "MessageViewController", bundle: nil) {
+                Popover.contentViewController = messageViewController.displayMessage(message: message)
+            }
+            Popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+        }
+        eventMonitor?.start()
+    }
+    
+    func closePopover(_ sender: AnyObject?) {
+        Popover.performClose(sender)
+        eventMonitor?.stop()
+    }
+    
+    func displayTest () {
+        if let button = MusicBarSI.button {
+            Popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+        }
+        eventMonitor?.start()
+    }
+    
     
     // Menu bar button functions
     
@@ -274,68 +373,44 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    func star0Func(sender :NSStatusBar){
-        if let track: iTunesTrack = iTunes.currentTrack {
-            track.rating = 0
-            upddateITunesRatingDisplay()
+    func leftEdgeFunc(sender :NSStatusBar){
+        if iTunes.isRunning && currentApp == "iTunes" {
+            if let track: iTunesTrack = iTunes.currentTrack {
+                track.rating = 0
+                updateITunesRatingDisplay()
+            }
         }
     }
     func star1Func(sender :NSStatusBar){
         if let track: iTunesTrack = iTunes.currentTrack {
             track.rating = 20
-            upddateITunesRatingDisplay()
+            updateITunesRatingDisplay()
         }
     }
     func star2Func(sender :NSStatusBar){
         if let track: iTunesTrack = iTunes.currentTrack {
             track.rating = 40
-            upddateITunesRatingDisplay()
+            updateITunesRatingDisplay()
         }
     }
     func star3Func(sender :NSStatusBar){
         if let track: iTunesTrack = iTunes.currentTrack {
             track.rating = 60
-            upddateITunesRatingDisplay()
+            updateITunesRatingDisplay()
         }
     }
     func star4Func(sender :NSStatusBar){
         if let track: iTunesTrack = iTunes.currentTrack {
             track.rating = 80
-            upddateITunesRatingDisplay()
+            updateITunesRatingDisplay()
         }
     }
     func star5Func(sender :NSStatusBar){
         if let track: iTunesTrack = iTunes.currentTrack {
             track.rating = 100
-            upddateITunesRatingDisplay()
+            updateITunesRatingDisplay()
         }
     }
-
-    
-    // Popover management
-    
-    func showPopover(message: String) {
-        if let button = MusicBarSI.button {
-            if let messageViewController = MessageViewController(nibName: "MessageViewController", bundle: nil) {
-                Popover.contentViewController = messageViewController.displayMessage(message: message)
-            }
-            Popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
-        }
-        eventMonitor?.start()
-    }
-    
-    func closePopover(_ sender: AnyObject?) {
-        Popover.performClose(sender)
-        eventMonitor?.stop()
-    }
-    
-    func displayTest () {
-        if let button = MusicBarSI.button {
-            Popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
-        }
-        eventMonitor?.start()
-    }
-
     
     
     // Notification handlers
@@ -411,8 +486,109 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     
-    // Update display functions
+    // Display functions
     
+    func initializeDisplay() {
+        
+        // Set Icons Names
+        if UserDefaults.standard.bool(forKey: "MusicBarBlackStyle") {
+            IconDic["MusicBarSI"] = "Logo-RightB"
+            IconDic["SeparatorSI"] = "Separator-IconB"
+            IconDic["FwdSI"] = "Fwd-IconB"
+            IconDic["Play"] = "Play-IconB"
+            IconDic["Pause"] = "Pause-IconB"
+            IconDic["Power"] = "Power-IconB"
+            IconDic["BackSI"] = "Back-IconB"
+            IconDic["Spotify-iTunes"] = "Spotify-iTunes-IconB"
+            IconDic["iTunes-Spotify"] = "iTunes-Spotify-IconB"
+            IconDic["TextEdgeRightSI"] = "Text-Edge-RightB"
+            IconDic["TextSeparator"] = "Text-SeparatorB"
+            IconDic["NoTextSeparator"] = "Separator-IconB"
+            IconDic["TextEdgeLeftSI"] = "Text-Edge-LeftB"
+            IconDic["Star"] = "Star-IconB"
+            IconDic["StarEmpty"] = "StarEmpty-IconB"
+            IconDic["LeftEdgeSI"] = "Left-IconB"
+        } else {
+            IconDic["MusicBarSI"] = "Logo-Right"
+            IconDic["SeparatorSI"] = "Separator-Icon"
+            IconDic["FwdSI"] = "Fwd-Icon"
+            IconDic["Play"] = "Play-Icon"
+            IconDic["Pause"] = "Pause-Icon"
+            IconDic["Power"] = "Power-Icon"
+            IconDic["BackSI"] = "Back-Icon"
+            IconDic["Spotify-iTunes"] = "Spotify-iTunes-Icon"
+            IconDic["iTunes-Spotify"] = "iTunes-Spotify-Icon"
+            IconDic["TextEdgeRightSI"] = "Text-Edge-Right"
+            IconDic["TextSeparator"] = "Text-Separator"
+            IconDic["NoTextSeparator"] = "Separator-Icon"
+            IconDic["TextEdgeLeftSI"] = "Text-Edge-Left"
+            IconDic["Star"] = "Star-Icon"
+            IconDic["StarEmpty"] = "StarEmpty-Icon"
+            IconDic["LeftEdgeSI"] = "Left-Icon"
+        }
+        
+        // Standard Display
+        if let musicBarButton = MusicBarSI.button {
+            musicBarButton.image = NSImage(named: IconDic["MusicBarSI"]!)
+            musicBarButton.image?.isTemplate = true
+        }
+        if let Separator1Button = Separator1SI.button {
+            Separator1Button.image = NSImage(named: IconDic["SeparatorSI"]!)
+            Separator1Button.image?.isTemplate = true
+        }
+        if let BackButton = BackSI.button {
+            BackButton.image = NSImage(named: IconDic["BackSI"]!)
+            BackButton.image?.isTemplate = true
+        }
+        if let FwdButton = FwdSI.button {
+            FwdButton.image = NSImage(named: IconDic["FwdSI"]!)
+            FwdButton.image?.isTemplate = true
+        }
+        if let LeftEdgeButton = LeftEdgeSI.button {
+            LeftEdgeButton.image = NSImage(named: IconDic["LeftEdgeSI"]!)
+            LeftEdgeButton.image?.isTemplate = true
+        }
+        
+        // Switch music application button
+        if let Separator2Button = Separator2SI.button {
+            Separator2Button.image = NSImage(named: IconDic["SeparatorSI"]!)
+            Separator2Button.image?.isTemplate = true
+        }
+        
+        // Song & artist display
+        if let ArtistBarButton = ArtistBarSI.button {
+            ArtistBarButton.alignment = .left
+        }
+        if let TitleBarButton = TitleBarSI.button {
+            TitleBarButton.alignment = .left;
+        }
+        
+        musicBarStandBy()
+        iTunesNotificationHandler()
+        spotifyNotificationHandler()
+    }
+    
+    func updateSwitchAppDisplay() {
+        if UserDefaults.standard.bool(forKey: "MusicBarSwitchApp") {
+            Separator2SI.length = 10
+            SwitchAppSI.length = 36
+            if currentApp == "spotify" {
+                if let CurrentAppButton = SwitchAppSI.button {
+                    CurrentAppButton.image = NSImage(named: IconDic["Spotify-iTunes"]!)
+                    CurrentAppButton.image?.isTemplate = true
+                }
+            } else {
+                if let CurrentAppButton = SwitchAppSI.button {
+                    CurrentAppButton.image = NSImage(named: IconDic["iTunes-Spotify"]!)
+                    CurrentAppButton.image?.isTemplate = true
+                }
+            }
+        } else {
+            Separator2SI.length = 0
+            SwitchAppSI.length = 0
+        }
+    }
+
     func updateITunesDisplay() {
         
         let track: iTunesTrack = iTunes.currentTrack;
@@ -420,28 +596,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Remove spotify display if necessary
         if currentApp == "spotify" {
             currentApp = "iTunes"
-            if let CurrentAppButton = SwitchAppSI.button {
-                CurrentAppButton.image = NSImage(named: "iTunes-Spotify-IconB")
-                CurrentAppButton.image?.isTemplate = true
-                
+            if UserDefaults.standard.bool(forKey: "MusicBarSwitchApp") {
+                updateSwitchAppDisplay()
             }
         }
         
         // Play/pause button update
         if iTunesEPlSPlaying == iTunes.playerState {
             if let PlayPauseButton = PlayPauseSI.button {
-                PlayPauseButton.image = NSImage(named: "Pause-Icon")
+                PlayPauseButton.image = NSImage(named: IconDic["Pause"]!)
                 PlayPauseButton.image?.isTemplate = true
             }
         } else {
             if let PlayPauseButton = PlayPauseSI.button {
-                PlayPauseButton.image = NSImage(named: "Play-Icon")
+                PlayPauseButton.image = NSImage(named: IconDic["Play"]!)
                 PlayPauseButton.image?.isTemplate = true
             }
         }
         
         // Rating display
-        upddateITunesRatingDisplay()
+        updateITunesRatingDisplay()
         
         // Cover art display
         
@@ -494,22 +668,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Remove iTunes display if necessary
         if currentApp == "iTunes" {
             currentApp = "spotify"
-            if let CurrentAppButton = SwitchAppSI.button {
-                CurrentAppButton.image = NSImage(named: "Spotify-iTunes-IconB")
-                CurrentAppButton.image?.isTemplate = true
+            updateSwitchAppDisplay()
+            if UserDefaults.standard.bool(forKey: "MusicBarSwitchApp") {
+                updateITunesRatingDisplay()
             }
-            upddateITunesRatingDisplay()
         }
         
         // Play/pause button update
         if spotify.playerState == SpotifyEPlSPlaying {
             if let PlayPauseButton = PlayPauseSI.button {
-                PlayPauseButton.image = NSImage(named: "Pause-Icon")
+                PlayPauseButton.image = NSImage(named: IconDic["Pause"]!)
                 PlayPauseButton.image?.isTemplate = true
             }
         } else {
             if let PlayPauseButton = PlayPauseSI.button {
-                PlayPauseButton.image = NSImage(named: "Play-Icon")
+                PlayPauseButton.image = NSImage(named: IconDic["Play"]!)
                 PlayPauseButton.image?.isTemplate = true
             }
         }
@@ -550,32 +723,39 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func  musicBarStandBy() {
         
         currentApp = DefaultCurrentApp
-        
-        if let CurrentAppButton = SwitchAppSI.button {
-            CurrentAppButton.image = NSImage(named: "iTunes-Spotify-IconB")
-            CurrentAppButton.image?.isTemplate = true
-        }
+        updateSwitchAppDisplay()
         
         if let PlayPauseButton = PlayPauseSI.button {
-            PlayPauseButton.image = NSImage(named: "Power-Icon")
+            PlayPauseButton.image = NSImage(named: IconDic["Power"]!)
             PlayPauseButton.image?.isTemplate = true
         }
         
         title = ""
         artist = ""
+        
         updateTrackDisplay()
         
-        upddateITunesRatingDisplay()
+        updateITunesRatingDisplay()
         
     }
     
     func updateTrackDisplay() {
         
-        if UserDefaults.standard.bool(forKey: "viewTrackInfo") {
+        if UserDefaults.standard.bool(forKey: "MusicBarTrackInfo") {
             
             TitleBarSI.length = 100
-            SeparatorSI.length = 13
+            Separator3SI.length = 13
             ArtistBarSI.length = 100
+            TextEdgeRightSI.length = 10
+            
+            if let SeparatorTextButton = Separator3SI.button {
+                SeparatorTextButton.image = NSImage(named: IconDic["TextSeparator"]!)
+                SeparatorTextButton.image?.isTemplate = true
+            }
+            if let TextEdgeRightButton = TextEdgeRightSI.button {
+                TextEdgeRightButton.image = NSImage(named: IconDic["TextEdgeRightSI"]!)
+                TextEdgeRightButton.image?.isTemplate = true
+            }
             
             let NoTitleMessage : String = "Song title"
             let NoArtistMessage : String = "Song artist"
@@ -601,84 +781,76 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             
             TitleBarSI.length = 0
-            SeparatorSI.length = 0
+            Separator3SI.length = 0
             ArtistBarSI.length = 0
-            
+            TextEdgeRightSI.length = 0
+
         }
+        
+        updateTextEdgeLeftDisplay()
     }
     
     
-    func upddateITunesRatingDisplay() {
+    func updateITunesRatingDisplay() {
         
-        if iTunes.isRunning && currentApp == "iTunes" {
+        if iTunes.isRunning && currentApp == "iTunes"
+            && UserDefaults.standard.bool(forKey: "MusicBarViewRatings") {
             
             let track: iTunesTrack = iTunes.currentTrack;
-
-            
-            Star0SI.length = 6
-            if let Star0Button = Star0SI.button {
-                Star0Button.image = NSImage(named: "Left-IconB")
-                Star0Button.image?.isTemplate = true
-            }
             
             Star1SI.length = 20
             if let Star1Button = Star1SI.button {
                 if track.rating >= 20 {
-                    Star1Button.image = NSImage(named: "Star-IconB")
+                    Star1Button.image = NSImage(named: IconDic["Star"]!)
                     Star1Button.image?.isTemplate = true
                 } else {
-                    Star1Button.image = NSImage(named: "StarEmpty-IconB")
+                    Star1Button.image = NSImage(named: IconDic["StarEmpty"]!)
                     Star1Button.image?.isTemplate = true
                 }
             }
             Star2SI.length = 20
             if let Star2Button = Star2SI.button {
                 if track.rating >= 40 {
-                    Star2Button.image = NSImage(named: "Star-IconB")
+                    Star2Button.image = NSImage(named: IconDic["Star"]!)
                     Star2Button.image?.isTemplate = true
                 } else {
-                    Star2Button.image = NSImage(named: "StarEmpty-IconB")
+                    Star2Button.image = NSImage(named: IconDic["StarEmpty"]!)
                     Star2Button.image?.isTemplate = true
                 }
             }
             Star3SI.length = 20
             if let Star3Button = Star3SI.button {
                 if track.rating >= 60 {
-                    Star3Button.image = NSImage(named: "Star-IconB")
+                    Star3Button.image = NSImage(named: IconDic["Star"]!)
                     Star3Button.image?.isTemplate = true
                 } else {
-                    Star3Button.image = NSImage(named: "StarEmpty-IconB")
+                    Star3Button.image = NSImage(named: IconDic["StarEmpty"]!)
                     Star3Button.image?.isTemplate = true
                 }
             }
             Star4SI.length = 20
             if let Star4Button = Star4SI.button {
                 if track.rating >= 80 {
-                    Star4Button.image = NSImage(named: "Star-IconB")
+                    Star4Button.image = NSImage(named: IconDic["Star"]!)
                     Star4Button.image?.isTemplate = true
                 } else {
-                    Star4Button.image = NSImage(named: "StarEmpty-IconB")
+                    Star4Button.image = NSImage(named: IconDic["StarEmpty"]!)
                     Star4Button.image?.isTemplate = true
                 }
             }
-            Star5SI.length = 29
+            Star5SI.length = 20
             if let Star5Button = Star5SI.button {
                 if track.rating >= 100 {
-                    Star5Button.image = NSImage(named: "Star5-IconB")
+                    Star5Button.image = NSImage(named: IconDic["Star"]!)
                     Star5Button.image?.isTemplate = true
                 } else {
-                    Star5Button.image = NSImage(named: "StarEmpty5-IconB")
+                    Star5Button.image = NSImage(named: IconDic["StarEmpty"]!)
                     Star5Button.image?.isTemplate = true
                 }
             }
 
         } else {
             
-            Star0SI.length = 11
-            if let Star0Button = Star0SI.button {
-                Star0Button.image = NSImage(named: "LeftAlt-IconB")
-                Star0Button.image?.isTemplate = true
-            }
             if let Star1Button = Star1SI.button {
                 Star1Button.image = nil
             }
@@ -701,7 +873,34 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             Star5SI.length = 0
         }
         
+        updateTextEdgeLeftDisplay()
+        
     }
     
+    func updateTextEdgeLeftDisplay() {
+        
+        if UserDefaults.standard.bool(forKey: "MusicBarTrackInfo")
+            && UserDefaults.standard.bool(forKey: "MusicBarBlackStyle"){
+            
+            TextEdgeLeftSI.length = 9
+            if let TextEdgeLeftButton = TextEdgeLeftSI.button {
+                TextEdgeLeftButton.image = NSImage(named: IconDic["TextEdgeLeftSI"]!)
+                TextEdgeLeftButton.image?.isTemplate = true
+            }
+            
+        } else {
+            if iTunes.isRunning && currentApp == "iTunes"
+                && UserDefaults.standard.bool(forKey: "MusicBarViewRatings") {
+            
+                TextEdgeLeftSI.length = 10
+                if let TextEdgeLeftButton = TextEdgeLeftSI.button {
+                    TextEdgeLeftButton.image = NSImage(named: IconDic["SeparatorSI"]!)
+                    TextEdgeLeftButton.image?.isTemplate = true
+                }
+            } else {
+                TextEdgeLeftSI.length = 0
+            }
+        }
+    }
 }
 

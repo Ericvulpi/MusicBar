@@ -4,14 +4,39 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>MusicBar Helper.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>MusicBar.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>MusicBarHelper.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>079610E01EA4D1E00041FDC9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>079610FC1EA687F10041FDC9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>079611101EA68A960041FDC9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>07BFF1971E3C1C77008DC441</key>
 		<dict>
 			<key>primary</key>

@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		076536AC1E621F7E00394DFD /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 076536AB1E621F7E00394DFD /* ScriptingBridge.framework */; };
+		079610F41EA4D3C80041FDC9 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 079610F31EA4D3C80041FDC9 /* ServiceManagement.framework */; };
+		079611151EA68A960041FDC9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 079611141EA68A960041FDC9 /* AppDelegate.m */; };
+		079611181EA68A960041FDC9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 079611171EA68A960041FDC9 /* main.m */; };
+		0796111B1EA68A960041FDC9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0796111A1EA68A960041FDC9 /* ViewController.m */; };
+		0796111D1EA68A960041FDC9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0796111C1EA68A960041FDC9 /* Assets.xcassets */; };
+		079611251EA68AD50041FDC9 /* MusicBarHelper.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 079611111EA68A960041FDC9 /* MusicBarHelper.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		07BFF19C1E3C1C78008DC441 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BFF19B1E3C1C78008DC441 /* AppDelegate.swift */; };
 		07BFF1A01E3C1C78008DC441 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07BFF19F1E3C1C78008DC441 /* Assets.xcassets */; };
 		07BFF1A31E3C1C78008DC441 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07BFF1A11E3C1C78008DC441 /* Main.storyboard */; };
@@ -34,11 +40,34 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		079610F51EA4D46E0041FDC9 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/LoginItems;
+			dstSubfolderSpec = 1;
+			files = (
+				079611251EA68AD50041FDC9 /* MusicBarHelper.app in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		076536A91E621D2E00394DFD /* iTunes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = iTunes.h; path = "../../../Scripting Bridge headers/iTunes.h"; sourceTree = "<group>"; };
 		076536AA1E621D8400394DFD /* Spotify.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Spotify.h; path = "../../../Scripting Bridge headers/Spotify.h"; sourceTree = "<group>"; };
 		076536AB1E621F7E00394DFD /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = ../../../../../System/Library/Frameworks/ScriptingBridge.framework; sourceTree = "<group>"; };
 		076536AD1E6225F000394DFD /* MusicBar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusicBar-Bridging-Header.h"; sourceTree = "<group>"; };
+		079610F11EA4D3280041FDC9 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
+		079610F31EA4D3C80041FDC9 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = ../../../../../System/Library/Frameworks/ServiceManagement.framework; sourceTree = "<group>"; };
+		079611111EA68A960041FDC9 /* MusicBarHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicBarHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		079611131EA68A960041FDC9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		079611141EA68A960041FDC9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		079611171EA68A960041FDC9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		079611191EA68A960041FDC9 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		0796111A1EA68A960041FDC9 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		0796111C1EA68A960041FDC9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		079611211EA68A970041FDC9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		07BFF1981E3C1C78008DC441 /* MusicBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07BFF19B1E3C1C78008DC441 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		07BFF19F1E3C1C78008DC441 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -55,11 +84,19 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0796110E1EA68A960041FDC9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		07BFF1951E3C1C77008DC441 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				076536AC1E621F7E00394DFD /* ScriptingBridge.framework in Frameworks */,
+				079610F41EA4D3C80041FDC9 /* ServiceManagement.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,14 +117,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		079610F01EA4D3280041FDC9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				079610F11EA4D3280041FDC9 /* ServiceManagement.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		079611121EA68A960041FDC9 /* MusicBarHelper */ = {
+			isa = PBXGroup;
+			children = (
+				079611131EA68A960041FDC9 /* AppDelegate.h */,
+				079611141EA68A960041FDC9 /* AppDelegate.m */,
+				079611191EA68A960041FDC9 /* ViewController.h */,
+				0796111A1EA68A960041FDC9 /* ViewController.m */,
+				0796111C1EA68A960041FDC9 /* Assets.xcassets */,
+				079611211EA68A970041FDC9 /* Info.plist */,
+				079611161EA68A960041FDC9 /* Supporting Files */,
+			);
+			path = MusicBarHelper;
+			sourceTree = "<group>";
+		};
+		079611161EA68A960041FDC9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				079611171EA68A960041FDC9 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		07BFF18F1E3C1C77008DC441 = {
 			isa = PBXGroup;
 			children = (
+				079610F31EA4D3C80041FDC9 /* ServiceManagement.framework */,
 				076536AB1E621F7E00394DFD /* ScriptingBridge.framework */,
 				07BFF19A1E3C1C78008DC441 /* MusicBar */,
 				07BFF1AC1E3C1C78008DC441 /* MusicBarTests */,
 				07BFF1B71E3C1C78008DC441 /* MusicBarUITests */,
+				079611121EA68A960041FDC9 /* MusicBarHelper */,
 				07BFF1991E3C1C78008DC441 /* Products */,
+				079610F01EA4D3280041FDC9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,6 +167,7 @@
 				07BFF1981E3C1C78008DC441 /* MusicBar.app */,
 				07BFF1A91E3C1C78008DC441 /* MusicBarTests.xctest */,
 				07BFF1B41E3C1C78008DC441 /* MusicBarUITests.xctest */,
+				079611111EA68A960041FDC9 /* MusicBarHelper.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -138,6 +209,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		079611101EA68A960041FDC9 /* MusicBarHelper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 079611221EA68A970041FDC9 /* Build configuration list for PBXNativeTarget "MusicBarHelper" */;
+			buildPhases = (
+				0796110D1EA68A960041FDC9 /* Sources */,
+				0796110E1EA68A960041FDC9 /* Frameworks */,
+				0796110F1EA68A960041FDC9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MusicBarHelper;
+			productName = MusicBarHelper;
+			productReference = 079611111EA68A960041FDC9 /* MusicBarHelper.app */;
+			productType = "com.apple.product-type.application";
+		};
 		07BFF1971E3C1C77008DC441 /* MusicBar */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 07BFF1BD1E3C1C78008DC441 /* Build configuration list for PBXNativeTarget "MusicBar" */;
@@ -145,6 +233,7 @@
 				07BFF1941E3C1C77008DC441 /* Sources */,
 				07BFF1951E3C1C77008DC441 /* Frameworks */,
 				07BFF1961E3C1C77008DC441 /* Resources */,
+				079610F51EA4D46E0041FDC9 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -197,10 +286,14 @@
 		07BFF1901E3C1C77008DC441 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0820;
+				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Tungsten;
 				TargetAttributes = {
+					079611101EA68A960041FDC9 = {
+						CreatedOnToolsVersion = 8.3.1;
+						ProvisioningStyle = Automatic;
+					};
 					07BFF1971E3C1C77008DC441 = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
@@ -233,11 +326,20 @@
 				07BFF1971E3C1C77008DC441 /* MusicBar */,
 				07BFF1A81E3C1C78008DC441 /* MusicBarTests */,
 				07BFF1B31E3C1C78008DC441 /* MusicBarUITests */,
+				079611101EA68A960041FDC9 /* MusicBarHelper */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0796110F1EA68A960041FDC9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0796111D1EA68A960041FDC9 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		07BFF1961E3C1C77008DC441 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -264,6 +366,16 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0796110D1EA68A960041FDC9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0796111B1EA68A960041FDC9 /* ViewController.m in Sources */,
+				079611181EA68A960041FDC9 /* main.m in Sources */,
+				079611151EA68A960041FDC9 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		07BFF1941E3C1C77008DC441 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -317,6 +429,34 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		079611231EA68A970041FDC9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = MusicBarHelper/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Tungsten.MusicBarHelper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		079611241EA68A970041FDC9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = MusicBarHelper/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Tungsten.MusicBarHelper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		07BFF1BB1E3C1C78008DC441 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -412,6 +552,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = MusicBar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Tungsten.MusicBar;
@@ -427,6 +568,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = MusicBar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Tungsten.MusicBar;
@@ -498,6 +640,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		079611221EA68A970041FDC9 /* Build configuration list for PBXNativeTarget "MusicBarHelper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				079611231EA68A970041FDC9 /* Debug */,
+				079611241EA68A970041FDC9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		07BFF1931E3C1C77008DC441 /* Build configuration list for PBXProject "MusicBar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
