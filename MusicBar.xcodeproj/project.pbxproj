@@ -9,16 +9,17 @@
 /* Begin PBXBuildFile section */
 		076536AC1E621F7E00394DFD /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 076536AB1E621F7E00394DFD /* ScriptingBridge.framework */; };
 		079610F41EA4D3C80041FDC9 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 079610F31EA4D3C80041FDC9 /* ServiceManagement.framework */; };
-		079611151EA68A960041FDC9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 079611141EA68A960041FDC9 /* AppDelegate.m */; };
-		079611181EA68A960041FDC9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 079611171EA68A960041FDC9 /* main.m */; };
-		0796111B1EA68A960041FDC9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0796111A1EA68A960041FDC9 /* ViewController.m */; };
-		0796111D1EA68A960041FDC9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0796111C1EA68A960041FDC9 /* Assets.xcassets */; };
-		079611251EA68AD50041FDC9 /* MusicBarHelper.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 079611111EA68A960041FDC9 /* MusicBarHelper.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		07BFF19C1E3C1C78008DC441 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BFF19B1E3C1C78008DC441 /* AppDelegate.swift */; };
 		07BFF1A01E3C1C78008DC441 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07BFF19F1E3C1C78008DC441 /* Assets.xcassets */; };
 		07BFF1A31E3C1C78008DC441 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07BFF1A11E3C1C78008DC441 /* Main.storyboard */; };
 		07BFF1AE1E3C1C78008DC441 /* MusicBarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BFF1AD1E3C1C78008DC441 /* MusicBarTests.swift */; };
 		07BFF1B91E3C1C78008DC441 /* MusicBarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BFF1B81E3C1C78008DC441 /* MusicBarUITests.swift */; };
+		07FB36941EB132E90075DB6B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FB36931EB132E90075DB6B /* AppDelegate.m */; };
+		07FB36971EB132E90075DB6B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FB36961EB132E90075DB6B /* main.m */; };
+		07FB369A1EB132E90075DB6B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FB36991EB132E90075DB6B /* ViewController.m */; };
+		07FB369C1EB132E90075DB6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07FB369B1EB132E90075DB6B /* Assets.xcassets */; };
+		07FB369F1EB132E90075DB6B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07FB369D1EB132E90075DB6B /* Main.storyboard */; };
+		07FB36A41EB134310075DB6B /* MusicBarHelper.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 07FB36901EB132E90075DB6B /* MusicBarHelper.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		07FDD6741E7DAC15002C2D70 /* EventMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FDD6731E7DAC15002C2D70 /* EventMonitor.swift */; };
 		07FDD6771E7DB921002C2D70 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FDD6751E7DB921002C2D70 /* MessageViewController.swift */; };
 /* End PBXBuildFile section */
@@ -47,27 +48,19 @@
 			dstPath = Contents/Library/LoginItems;
 			dstSubfolderSpec = 1;
 			files = (
-				079611251EA68AD50041FDC9 /* MusicBarHelper.app in CopyFiles */,
+				07FB36A41EB134310075DB6B /* MusicBarHelper.app in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		076536A91E621D2E00394DFD /* iTunes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = iTunes.h; path = "../../../Scripting Bridge headers/iTunes.h"; sourceTree = "<group>"; };
-		076536AA1E621D8400394DFD /* Spotify.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Spotify.h; path = "../../../Scripting Bridge headers/Spotify.h"; sourceTree = "<group>"; };
 		076536AB1E621F7E00394DFD /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = ../../../../../System/Library/Frameworks/ScriptingBridge.framework; sourceTree = "<group>"; };
 		076536AD1E6225F000394DFD /* MusicBar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusicBar-Bridging-Header.h"; sourceTree = "<group>"; };
+		0767321C1EABEDCD00C0AA07 /* iTunes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iTunes.h; sourceTree = "<group>"; };
+		0767321D1EABEDDF00C0AA07 /* Spotify.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Spotify.h; sourceTree = "<group>"; };
 		079610F11EA4D3280041FDC9 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		079610F31EA4D3C80041FDC9 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = ../../../../../System/Library/Frameworks/ServiceManagement.framework; sourceTree = "<group>"; };
-		079611111EA68A960041FDC9 /* MusicBarHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicBarHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		079611131EA68A960041FDC9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		079611141EA68A960041FDC9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		079611171EA68A960041FDC9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		079611191EA68A960041FDC9 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		0796111A1EA68A960041FDC9 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		0796111C1EA68A960041FDC9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		079611211EA68A970041FDC9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		07BFF1981E3C1C78008DC441 /* MusicBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07BFF19B1E3C1C78008DC441 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		07BFF19F1E3C1C78008DC441 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -79,18 +72,20 @@
 		07BFF1B41E3C1C78008DC441 /* MusicBarUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusicBarUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		07BFF1B81E3C1C78008DC441 /* MusicBarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicBarUITests.swift; sourceTree = "<group>"; };
 		07BFF1BA1E3C1C78008DC441 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		07FB36901EB132E90075DB6B /* MusicBarHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicBarHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		07FB36921EB132E90075DB6B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		07FB36931EB132E90075DB6B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		07FB36961EB132E90075DB6B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		07FB36981EB132E90075DB6B /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		07FB36991EB132E90075DB6B /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		07FB369B1EB132E90075DB6B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		07FB369E1EB132E90075DB6B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		07FB36A01EB132E90075DB6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		07FDD6731E7DAC15002C2D70 /* EventMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventMonitor.swift; sourceTree = "<group>"; };
 		07FDD6751E7DB921002C2D70 /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		0796110E1EA68A960041FDC9 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		07BFF1951E3C1C77008DC441 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -114,6 +109,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		07FB368D1EB132E90075DB6B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -125,28 +127,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		079611121EA68A960041FDC9 /* MusicBarHelper */ = {
-			isa = PBXGroup;
-			children = (
-				079611131EA68A960041FDC9 /* AppDelegate.h */,
-				079611141EA68A960041FDC9 /* AppDelegate.m */,
-				079611191EA68A960041FDC9 /* ViewController.h */,
-				0796111A1EA68A960041FDC9 /* ViewController.m */,
-				0796111C1EA68A960041FDC9 /* Assets.xcassets */,
-				079611211EA68A970041FDC9 /* Info.plist */,
-				079611161EA68A960041FDC9 /* Supporting Files */,
-			);
-			path = MusicBarHelper;
-			sourceTree = "<group>";
-		};
-		079611161EA68A960041FDC9 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				079611171EA68A960041FDC9 /* main.m */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		07BFF18F1E3C1C77008DC441 = {
 			isa = PBXGroup;
 			children = (
@@ -155,7 +135,7 @@
 				07BFF19A1E3C1C78008DC441 /* MusicBar */,
 				07BFF1AC1E3C1C78008DC441 /* MusicBarTests */,
 				07BFF1B71E3C1C78008DC441 /* MusicBarUITests */,
-				079611121EA68A960041FDC9 /* MusicBarHelper */,
+				07FB36911EB132E90075DB6B /* MusicBarHelper */,
 				07BFF1991E3C1C78008DC441 /* Products */,
 				079610F01EA4D3280041FDC9 /* Frameworks */,
 			);
@@ -167,7 +147,7 @@
 				07BFF1981E3C1C78008DC441 /* MusicBar.app */,
 				07BFF1A91E3C1C78008DC441 /* MusicBarTests.xctest */,
 				07BFF1B41E3C1C78008DC441 /* MusicBarUITests.xctest */,
-				079611111EA68A960041FDC9 /* MusicBarHelper.app */,
+				07FB36901EB132E90075DB6B /* MusicBarHelper.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -178,11 +158,11 @@
 				07BFF19B1E3C1C78008DC441 /* AppDelegate.swift */,
 				07FDD6751E7DB921002C2D70 /* MessageViewController.swift */,
 				07FDD6731E7DAC15002C2D70 /* EventMonitor.swift */,
-				076536A91E621D2E00394DFD /* iTunes.h */,
-				076536AA1E621D8400394DFD /* Spotify.h */,
+				0767321C1EABEDCD00C0AA07 /* iTunes.h */,
+				0767321D1EABEDDF00C0AA07 /* Spotify.h */,
 				076536AD1E6225F000394DFD /* MusicBar-Bridging-Header.h */,
-				07BFF19F1E3C1C78008DC441 /* Assets.xcassets */,
 				07BFF1A11E3C1C78008DC441 /* Main.storyboard */,
+				07BFF19F1E3C1C78008DC441 /* Assets.xcassets */,
 				07BFF1A41E3C1C78008DC441 /* Info.plist */,
 			);
 			path = MusicBar;
@@ -206,26 +186,32 @@
 			path = MusicBarUITests;
 			sourceTree = "<group>";
 		};
+		07FB36911EB132E90075DB6B /* MusicBarHelper */ = {
+			isa = PBXGroup;
+			children = (
+				07FB36921EB132E90075DB6B /* AppDelegate.h */,
+				07FB36931EB132E90075DB6B /* AppDelegate.m */,
+				07FB36981EB132E90075DB6B /* ViewController.h */,
+				07FB36991EB132E90075DB6B /* ViewController.m */,
+				07FB369B1EB132E90075DB6B /* Assets.xcassets */,
+				07FB369D1EB132E90075DB6B /* Main.storyboard */,
+				07FB36A01EB132E90075DB6B /* Info.plist */,
+				07FB36951EB132E90075DB6B /* Supporting Files */,
+			);
+			path = MusicBarHelper;
+			sourceTree = "<group>";
+		};
+		07FB36951EB132E90075DB6B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				07FB36961EB132E90075DB6B /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		079611101EA68A960041FDC9 /* MusicBarHelper */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 079611221EA68A970041FDC9 /* Build configuration list for PBXNativeTarget "MusicBarHelper" */;
-			buildPhases = (
-				0796110D1EA68A960041FDC9 /* Sources */,
-				0796110E1EA68A960041FDC9 /* Frameworks */,
-				0796110F1EA68A960041FDC9 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = MusicBarHelper;
-			productName = MusicBarHelper;
-			productReference = 079611111EA68A960041FDC9 /* MusicBarHelper.app */;
-			productType = "com.apple.product-type.application";
-		};
 		07BFF1971E3C1C77008DC441 /* MusicBar */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 07BFF1BD1E3C1C78008DC441 /* Build configuration list for PBXNativeTarget "MusicBar" */;
@@ -280,6 +266,23 @@
 			productReference = 07BFF1B41E3C1C78008DC441 /* MusicBarUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		07FB368F1EB132E90075DB6B /* MusicBarHelper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 07FB36A11EB132E90075DB6B /* Build configuration list for PBXNativeTarget "MusicBarHelper" */;
+			buildPhases = (
+				07FB368C1EB132E90075DB6B /* Sources */,
+				07FB368D1EB132E90075DB6B /* Frameworks */,
+				07FB368E1EB132E90075DB6B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MusicBarHelper;
+			productName = MusicBarHelper;
+			productReference = 07FB36901EB132E90075DB6B /* MusicBarHelper.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -290,12 +293,9 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Tungsten;
 				TargetAttributes = {
-					079611101EA68A960041FDC9 = {
-						CreatedOnToolsVersion = 8.3.1;
-						ProvisioningStyle = Automatic;
-					};
 					07BFF1971E3C1C77008DC441 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = U46769Q7NC;
 						ProvisioningStyle = Automatic;
 					};
 					07BFF1A81E3C1C78008DC441 = {
@@ -307,6 +307,11 @@
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 07BFF1971E3C1C77008DC441;
+					};
+					07FB368F1EB132E90075DB6B = {
+						CreatedOnToolsVersion = 8.3.1;
+						DevelopmentTeam = U46769Q7NC;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -326,20 +331,12 @@
 				07BFF1971E3C1C77008DC441 /* MusicBar */,
 				07BFF1A81E3C1C78008DC441 /* MusicBarTests */,
 				07BFF1B31E3C1C78008DC441 /* MusicBarUITests */,
-				079611101EA68A960041FDC9 /* MusicBarHelper */,
+				07FB368F1EB132E90075DB6B /* MusicBarHelper */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		0796110F1EA68A960041FDC9 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0796111D1EA68A960041FDC9 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		07BFF1961E3C1C77008DC441 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -363,19 +360,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXResourcesBuildPhase section */
-
-/* Begin PBXSourcesBuildPhase section */
-		0796110D1EA68A960041FDC9 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
+		07FB368E1EB132E90075DB6B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0796111B1EA68A960041FDC9 /* ViewController.m in Sources */,
-				079611181EA68A960041FDC9 /* main.m in Sources */,
-				079611151EA68A960041FDC9 /* AppDelegate.m in Sources */,
+				07FB369C1EB132E90075DB6B /* Assets.xcassets in Resources */,
+				07FB369F1EB132E90075DB6B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
 		07BFF1941E3C1C77008DC441 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -399,6 +395,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				07BFF1B91E3C1C78008DC441 /* MusicBarUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07FB368C1EB132E90075DB6B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				07FB369A1EB132E90075DB6B /* ViewController.m in Sources */,
+				07FB36971EB132E90075DB6B /* main.m in Sources */,
+				07FB36941EB132E90075DB6B /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,37 +432,17 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
+		07FB369D1EB132E90075DB6B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				07FB369E1EB132E90075DB6B /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		079611231EA68A970041FDC9 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = MusicBarHelper/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Tungsten.MusicBarHelper;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		079611241EA68A970041FDC9 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = MusicBarHelper/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Tungsten.MusicBarHelper;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
 		07BFF1BB1E3C1C78008DC441 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -551,12 +537,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = U46769Q7NC;
 				INFOPLIST_FILE = MusicBar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Tungsten.MusicBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MusicBar/MusicBar-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "MusicBar/**";
@@ -567,12 +556,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = U46769Q7NC;
 				INFOPLIST_FILE = MusicBar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Tungsten.MusicBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MusicBar/MusicBar-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "MusicBar/**";
@@ -637,18 +629,43 @@
 			};
 			name = Release;
 		};
+		07FB36A21EB132E90075DB6B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = U46769Q7NC;
+				INFOPLIST_FILE = MusicBarHelper/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Tungsten.MusicBarHelper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		07FB36A31EB132E90075DB6B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = U46769Q7NC;
+				INFOPLIST_FILE = MusicBarHelper/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Tungsten.MusicBarHelper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		079611221EA68A970041FDC9 /* Build configuration list for PBXNativeTarget "MusicBarHelper" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				079611231EA68A970041FDC9 /* Debug */,
-				079611241EA68A970041FDC9 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		07BFF1931E3C1C77008DC441 /* Build configuration list for PBXProject "MusicBar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -684,6 +701,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		07FB36A11EB132E90075DB6B /* Build configuration list for PBXNativeTarget "MusicBarHelper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				07FB36A21EB132E90075DB6B /* Debug */,
+				07FB36A31EB132E90075DB6B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
