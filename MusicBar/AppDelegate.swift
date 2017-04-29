@@ -21,12 +21,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var currentApp: String!
     var title: String!
     var artist: String!
-    var IconDic = [String: String]()
+    var iconDic = [String: String]()
+    let DefaultCurrentApp: String = "iTunes"
     
     let menu = NSMenu()
     let viewSettingsSubmenu = NSMenu()
     let otherSettingsSubmenu = NSMenu()
-    let DefaultCurrentApp: String = "iTunes"
+    let countryCodeButton = NSMenuItem()
 
     let MusicBarSI = NSStatusBar.system().statusItem(withLength: 16)
     let Separator1SI = NSStatusBar.system().statusItem(withLength: 10)
@@ -49,21 +50,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let LeftEdgeSI = NSStatusBar.system().statusItem(withLength: 6)
     
     let Popover = NSPopover()
+    let QueryWindow = NSPopover()
     var eventMonitor: EventMonitor?
 
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
-        
-        for (key, value) in UserDefaults.standard.dictionaryRepresentation() {
-            print("\(key) = \(value) \n")
-        }
-        if let countryCode = (Locale.current as NSLocale).object(forKey: .countryCode) as? String {
-            print(countryCode)
-        }
 
         
-        // Target applications
+        // Variables initialization
         
         iTunes = SBApplication.init(bundleIdentifier: "com.apple.iTunes")
         spotify = SBApplication.init(bundleIdentifier: "com.spotify.client")
@@ -88,7 +83,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(NSMenuItem(title: "Other Settings", action: nil, keyEquivalent: ""))
         menu.item(withTitle: "Other Settings")?.submenu = otherSettingsSubmenu
         otherSettingsSubmenu.addItem(NSMenuItem(title: "Auto launch at login", action: #selector(toggleAutoLaunch), keyEquivalent: ""))
-        //otherSettingsSubmenu.addItem(NSMenuItem(title: "iTunes Store Country", action: #selector(changeItunesStoreCountry), keyEquivalent: ""))
+        countryCodeButton.action = #selector(changeItunesStoreCountry)
+        otherSettingsSubmenu.addItem(countryCodeButton)
         
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.shared().terminate), keyEquivalent: ""))
@@ -124,13 +120,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             otherSettingsSubmenu.item(withTitle: "Auto launch at login")?.state = 0
         }
-        
+                
         if UserDefaults.standard.string(forKey: "MusicBarITunesStoreCountry") == nil {
             if let countryCode = (Locale.current as NSLocale).object(forKey: .countryCode) as? String {
                 UserDefaults.standard.setValue(countryCode, forKey: "MusicBarITunesStoreCountry")
             }
-            otherSettingsSubmenu.item(withTitle: "Auto launch at login")?.state = 1
         }
+        countryCodeButton.title = "Edit iTunes Store Country"
+
         
         // Switch music application button
         if let CurrentAppButton = SwitchAppSI.button {
@@ -324,6 +321,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
     }
+    
+    func changeItunesStoreCountry() {
+        var countryCode = String()
+        if UserDefaults.standard.string(forKey: "MusicBarITunesStoreCountry")! == "" {
+            countryCode = "empty"
+        } else {
+            countryCode = UserDefaults.standard.string(forKey: "MusicBarITunesStoreCountry")!
+        }
+        let title : String = ("Change the Country code of your iTunes Store search "
+        + "(in case MusicBar is not opening the iTunes Store of the correct country). "
+        + "Current country code is : " + countryCode)
+        showQuery(value: title)
+    }
 
     
     // Popover management
@@ -343,14 +353,35 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         eventMonitor?.stop()
     }
     
-    func displayTest () {
+    func displayTest() {
         if let button = MusicBarSI.button {
             Popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
         }
         eventMonitor?.start()
     }
     
+    func showQuery(value: String) {
+        if let button = MusicBarSI.button {
+            if let queryViewController = QueryViewController(nibName: "QueryViewController", bundle: nil) {
+                QueryWindow.contentViewController = queryViewController.displayMessage(query: value)
+            }
+            QueryWindow.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+        }
+    }
     
+    func closeQueryWindow(_ sender: AnyObject?) {
+        if let queryViewController = QueryWindow.contentViewController as? QueryViewController {
+            if queryViewController.QueryResult != nil {
+                if queryViewController.QueryResult.stringValue != "" {
+                    UserDefaults.standard.setValue(queryViewController.QueryResult.stringValue, forKey: "MusicBarITunesStoreCountry")
+                    countryCodeButton.title = "Edit iTunes Store Country"
+                }
+            }
+        }
+        QueryWindow.performClose(sender)
+    }
+        
+
     // Menu bar button functions
     
     func switchMusicApp(sender:NSStatusBar) {
@@ -506,66 +537,66 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Set Icons Names
         if UserDefaults.standard.bool(forKey: "MusicBarBlackStyle") {
-            IconDic["MusicBarSI"] = "Logo-RightB"
-            IconDic["SeparatorSI"] = "Separator-IconB"
-            IconDic["FwdSI"] = "Fwd-IconB"
-            IconDic["Play"] = "Play-IconB"
-            IconDic["Pause"] = "Pause-IconB"
-            IconDic["Power"] = "Power-IconB"
-            IconDic["BackSI"] = "Back-IconB"
-            IconDic["Spotify-iTunes"] = "Spotify-iTunes-IconB"
-            IconDic["iTunes-Spotify"] = "iTunes-Spotify-IconB"
-            IconDic["TextEdgeRightSI"] = "Text-Edge-RightB"
-            IconDic["TextSeparator"] = "Text-SeparatorB"
-            IconDic["NoTextSeparator"] = "Separator-IconB"
-            IconDic["TextEdgeLeftSI"] = "Text-Edge-LeftB"
-            IconDic["Star"] = "Star-IconB"
-            IconDic["StarEmpty"] = "StarEmpty-IconB"
-            IconDic["LeftEdgeSI"] = "Left-IconB"
+            iconDic["MusicBarSI"] = "Logo-RightB"
+            iconDic["SeparatorSI"] = "Separator-IconB"
+            iconDic["FwdSI"] = "Fwd-IconB"
+            iconDic["Play"] = "Play-IconB"
+            iconDic["Pause"] = "Pause-IconB"
+            iconDic["Power"] = "Power-IconB"
+            iconDic["BackSI"] = "Back-IconB"
+            iconDic["Spotify-iTunes"] = "Spotify-iTunes-IconB"
+            iconDic["iTunes-Spotify"] = "iTunes-Spotify-IconB"
+            iconDic["TextEdgeRightSI"] = "Text-Edge-RightB"
+            iconDic["TextSeparator"] = "Text-SeparatorB"
+            iconDic["NoTextSeparator"] = "Separator-IconB"
+            iconDic["TextEdgeLeftSI"] = "Text-Edge-LeftB"
+            iconDic["Star"] = "Star-IconB"
+            iconDic["StarEmpty"] = "StarEmpty-IconB"
+            iconDic["LeftEdgeSI"] = "Left-IconB"
         } else {
-            IconDic["MusicBarSI"] = "Logo-Right"
-            IconDic["SeparatorSI"] = "Separator-Icon"
-            IconDic["FwdSI"] = "Fwd-Icon"
-            IconDic["Play"] = "Play-Icon"
-            IconDic["Pause"] = "Pause-Icon"
-            IconDic["Power"] = "Power-Icon"
-            IconDic["BackSI"] = "Back-Icon"
-            IconDic["Spotify-iTunes"] = "Spotify-iTunes-Icon"
-            IconDic["iTunes-Spotify"] = "iTunes-Spotify-Icon"
-            IconDic["TextEdgeRightSI"] = "Text-Edge-Right"
-            IconDic["TextSeparator"] = "Text-Separator"
-            IconDic["NoTextSeparator"] = "Separator-Icon"
-            IconDic["TextEdgeLeftSI"] = "Text-Edge-Left"
-            IconDic["Star"] = "Star-Icon"
-            IconDic["StarEmpty"] = "StarEmpty-Icon"
-            IconDic["LeftEdgeSI"] = "Left-Icon"
+            iconDic["MusicBarSI"] = "Logo-Right"
+            iconDic["SeparatorSI"] = "Separator-Icon"
+            iconDic["FwdSI"] = "Fwd-Icon"
+            iconDic["Play"] = "Play-Icon"
+            iconDic["Pause"] = "Pause-Icon"
+            iconDic["Power"] = "Power-Icon"
+            iconDic["BackSI"] = "Back-Icon"
+            iconDic["Spotify-iTunes"] = "Spotify-iTunes-Icon"
+            iconDic["iTunes-Spotify"] = "iTunes-Spotify-Icon"
+            iconDic["TextEdgeRightSI"] = "Text-Edge-Right"
+            iconDic["TextSeparator"] = "Text-Separator"
+            iconDic["NoTextSeparator"] = "Separator-Icon"
+            iconDic["TextEdgeLeftSI"] = "Text-Edge-Left"
+            iconDic["Star"] = "Star-Icon"
+            iconDic["StarEmpty"] = "StarEmpty-Icon"
+            iconDic["LeftEdgeSI"] = "Left-Icon"
         }
         
         // Standard Display
         if let musicBarButton = MusicBarSI.button {
-            musicBarButton.image = NSImage(named: IconDic["MusicBarSI"]!)
+            musicBarButton.image = NSImage(named: iconDic["MusicBarSI"]!)
             musicBarButton.image?.isTemplate = true
         }
         if let Separator1Button = Separator1SI.button {
-            Separator1Button.image = NSImage(named: IconDic["SeparatorSI"]!)
+            Separator1Button.image = NSImage(named: iconDic["SeparatorSI"]!)
             Separator1Button.image?.isTemplate = true
         }
         if let BackButton = BackSI.button {
-            BackButton.image = NSImage(named: IconDic["BackSI"]!)
+            BackButton.image = NSImage(named: iconDic["BackSI"]!)
             BackButton.image?.isTemplate = true
         }
         if let FwdButton = FwdSI.button {
-            FwdButton.image = NSImage(named: IconDic["FwdSI"]!)
+            FwdButton.image = NSImage(named: iconDic["FwdSI"]!)
             FwdButton.image?.isTemplate = true
         }
         if let LeftEdgeButton = LeftEdgeSI.button {
-            LeftEdgeButton.image = NSImage(named: IconDic["LeftEdgeSI"]!)
+            LeftEdgeButton.image = NSImage(named: iconDic["LeftEdgeSI"]!)
             LeftEdgeButton.image?.isTemplate = true
         }
         
         // Switch music application button
         if let Separator2Button = Separator2SI.button {
-            Separator2Button.image = NSImage(named: IconDic["SeparatorSI"]!)
+            Separator2Button.image = NSImage(named: iconDic["SeparatorSI"]!)
             Separator2Button.image?.isTemplate = true
         }
         
@@ -588,12 +619,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             SwitchAppSI.length = 36
             if currentApp == "spotify" {
                 if let CurrentAppButton = SwitchAppSI.button {
-                    CurrentAppButton.image = NSImage(named: IconDic["Spotify-iTunes"]!)
+                    CurrentAppButton.image = NSImage(named: iconDic["Spotify-iTunes"]!)
                     CurrentAppButton.image?.isTemplate = true
                 }
             } else {
                 if let CurrentAppButton = SwitchAppSI.button {
-                    CurrentAppButton.image = NSImage(named: IconDic["iTunes-Spotify"]!)
+                    CurrentAppButton.image = NSImage(named: iconDic["iTunes-Spotify"]!)
                     CurrentAppButton.image?.isTemplate = true
                 }
             }
@@ -618,12 +649,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Play/pause button update
         if iTunesEPlSPlaying == iTunes.playerState {
             if let PlayPauseButton = PlayPauseSI.button {
-                PlayPauseButton.image = NSImage(named: IconDic["Pause"]!)
+                PlayPauseButton.image = NSImage(named: iconDic["Pause"]!)
                 PlayPauseButton.image?.isTemplate = true
             }
         } else {
             if let PlayPauseButton = PlayPauseSI.button {
-                PlayPauseButton.image = NSImage(named: IconDic["Play"]!)
+                PlayPauseButton.image = NSImage(named: iconDic["Play"]!)
                 PlayPauseButton.image?.isTemplate = true
             }
         }
@@ -691,12 +722,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Play/pause button update
         if spotify.playerState == SpotifyEPlSPlaying {
             if let PlayPauseButton = PlayPauseSI.button {
-                PlayPauseButton.image = NSImage(named: IconDic["Pause"]!)
+                PlayPauseButton.image = NSImage(named: iconDic["Pause"]!)
                 PlayPauseButton.image?.isTemplate = true
             }
         } else {
             if let PlayPauseButton = PlayPauseSI.button {
-                PlayPauseButton.image = NSImage(named: IconDic["Play"]!)
+                PlayPauseButton.image = NSImage(named: iconDic["Play"]!)
                 PlayPauseButton.image?.isTemplate = true
             }
         }
@@ -740,7 +771,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         updateSwitchAppDisplay()
         
         if let PlayPauseButton = PlayPauseSI.button {
-            PlayPauseButton.image = NSImage(named: IconDic["Power"]!)
+            PlayPauseButton.image = NSImage(named: iconDic["Power"]!)
             PlayPauseButton.image?.isTemplate = true
         }
         
@@ -763,11 +794,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             TextEdgeRightSI.length = 10
             
             if let SeparatorTextButton = Separator3SI.button {
-                SeparatorTextButton.image = NSImage(named: IconDic["TextSeparator"]!)
+                SeparatorTextButton.image = NSImage(named: iconDic["TextSeparator"]!)
                 SeparatorTextButton.image?.isTemplate = true
             }
             if let TextEdgeRightButton = TextEdgeRightSI.button {
-                TextEdgeRightButton.image = NSImage(named: IconDic["TextEdgeRightSI"]!)
+                TextEdgeRightButton.image = NSImage(named: iconDic["TextEdgeRightSI"]!)
                 TextEdgeRightButton.image?.isTemplate = true
             }
             
@@ -815,50 +846,50 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             Star1SI.length = 20
             if let Star1Button = Star1SI.button {
                 if track.rating >= 20 {
-                    Star1Button.image = NSImage(named: IconDic["Star"]!)
+                    Star1Button.image = NSImage(named: iconDic["Star"]!)
                     Star1Button.image?.isTemplate = true
                 } else {
-                    Star1Button.image = NSImage(named: IconDic["StarEmpty"]!)
+                    Star1Button.image = NSImage(named: iconDic["StarEmpty"]!)
                     Star1Button.image?.isTemplate = true
                 }
             }
             Star2SI.length = 20
             if let Star2Button = Star2SI.button {
                 if track.rating >= 40 {
-                    Star2Button.image = NSImage(named: IconDic["Star"]!)
+                    Star2Button.image = NSImage(named: iconDic["Star"]!)
                     Star2Button.image?.isTemplate = true
                 } else {
-                    Star2Button.image = NSImage(named: IconDic["StarEmpty"]!)
+                    Star2Button.image = NSImage(named: iconDic["StarEmpty"]!)
                     Star2Button.image?.isTemplate = true
                 }
             }
             Star3SI.length = 20
             if let Star3Button = Star3SI.button {
                 if track.rating >= 60 {
-                    Star3Button.image = NSImage(named: IconDic["Star"]!)
+                    Star3Button.image = NSImage(named: iconDic["Star"]!)
                     Star3Button.image?.isTemplate = true
                 } else {
-                    Star3Button.image = NSImage(named: IconDic["StarEmpty"]!)
+                    Star3Button.image = NSImage(named: iconDic["StarEmpty"]!)
                     Star3Button.image?.isTemplate = true
                 }
             }
             Star4SI.length = 20
             if let Star4Button = Star4SI.button {
                 if track.rating >= 80 {
-                    Star4Button.image = NSImage(named: IconDic["Star"]!)
+                    Star4Button.image = NSImage(named: iconDic["Star"]!)
                     Star4Button.image?.isTemplate = true
                 } else {
-                    Star4Button.image = NSImage(named: IconDic["StarEmpty"]!)
+                    Star4Button.image = NSImage(named: iconDic["StarEmpty"]!)
                     Star4Button.image?.isTemplate = true
                 }
             }
             Star5SI.length = 20
             if let Star5Button = Star5SI.button {
                 if track.rating >= 100 {
-                    Star5Button.image = NSImage(named: IconDic["Star"]!)
+                    Star5Button.image = NSImage(named: iconDic["Star"]!)
                     Star5Button.image?.isTemplate = true
                 } else {
-                    Star5Button.image = NSImage(named: IconDic["StarEmpty"]!)
+                    Star5Button.image = NSImage(named: iconDic["StarEmpty"]!)
                     Star5Button.image?.isTemplate = true
                 }
             }
@@ -898,7 +929,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
             TextEdgeLeftSI.length = 9
             if let TextEdgeLeftButton = TextEdgeLeftSI.button {
-                TextEdgeLeftButton.image = NSImage(named: IconDic["TextEdgeLeftSI"]!)
+                TextEdgeLeftButton.image = NSImage(named: iconDic["TextEdgeLeftSI"]!)
                 TextEdgeLeftButton.image?.isTemplate = true
             }
             
@@ -908,7 +939,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
                 TextEdgeLeftSI.length = 10
                 if let TextEdgeLeftButton = TextEdgeLeftSI.button {
-                    TextEdgeLeftButton.image = NSImage(named: IconDic["SeparatorSI"]!)
+                    TextEdgeLeftButton.image = NSImage(named: iconDic["SeparatorSI"]!)
                     TextEdgeLeftButton.image?.isTemplate = true
                 }
             } else {

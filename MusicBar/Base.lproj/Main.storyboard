@@ -695,5 +695,69 @@
             </objects>
             <point key="canvasLocation" x="75" y="1007"/>
         </scene>
+        <!--Query View Controller-->
+        <scene sceneID="3gH-Ue-hrD">
+            <objects>
+                <viewController storyboardIdentifier="QueryViewController" id="Clo-t2-YcQ" customClass="QueryViewController" customModule="MusicBar" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="8SZ-nS-UZm">
+                        <rect key="frame" x="0.0" y="0.0" width="376" height="156"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="96H-8M-N5A">
+                                <rect key="frame" x="18" y="79" width="340" height="57"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" id="tQ6-JP-lQI">
+                                    <font key="font" metaFont="system"/>
+                                    <string key="title">Change the iTunes Store Country code for search
+(in case MusicBar is not opening the iTunes
+Store of the correct country)</string>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    <connections>
+                                        <binding destination="Clo-t2-YcQ" name="displayPatternValue1" keyPath="self.QueryText" id="Cjn-Dj-jVv">
+                                            <dictionary key="options">
+                                                <string key="NSDisplayPattern">%{value1}@</string>
+                                            </dictionary>
+                                        </binding>
+                                    </connections>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yz7-4N-Pzv">
+                                <rect key="frame" x="140" y="49" width="96" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="5gb-QU-kod">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <action selector="QueryEditFinished:" target="Clo-t2-YcQ" id="aWG-Av-P0Z"/>
+                                </connections>
+                            </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bgN-Pb-4jw">
+                                <rect key="frame" x="159" y="13" width="59" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jUH-IY-yRL">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="QueryFinished:" target="Clo-t2-YcQ" id="7jl-dQ-HKg"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="QueryResult" destination="Yz7-4N-Pzv" id="meK-dd-pJu"/>
+                    </connections>
+                </viewController>
+                <customObject id="zjo-dY-DyU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <userDefaultsController representsSharedInstance="YES" id="AX9-uA-iUm"/>
+            </objects>
+            <point key="canvasLocation" x="59" y="840"/>
+        </scene>
     </scenes>
 </document>

@@ -20,3 +20,27 @@ class MessageViewController: NSViewController {
     }
     
 }
+
+class QueryViewController: NSViewController {
+    
+    dynamic var QueryText: String = "Error"
+    
+    @IBOutlet weak var QueryResult: NSTextField!
+    
+    func displayMessage (query: String) -> QueryViewController {
+        let storyboard = NSStoryboard(name: "Main", bundle: nil)
+        let View: QueryViewController = storyboard.instantiateController(withIdentifier: "QueryViewController") as! QueryViewController
+        View.QueryText = query
+        return View
+    }
+    
+    @IBAction func QueryEditFinished(_ sender: Any) {
+        self.QueryFinished(self)
+    }
+    
+    @IBAction func QueryFinished(_ sender: Any) {
+        let appDelegate = NSApplication.shared().delegate as! AppDelegate
+        appDelegate.closeQueryWindow(sender as AnyObject)
+    }
+    
+}
