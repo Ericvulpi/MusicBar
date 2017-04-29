@@ -55,13 +55,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
         
+        for (key, value) in UserDefaults.standard.dictionaryRepresentation() {
+            print("\(key) = \(value) \n")
+        }
+        if let countryCode = (Locale.current as NSLocale).object(forKey: .countryCode) as? String {
+            print(countryCode)
+        }
+
+        
         // Target applications
         
         iTunes = SBApplication.init(bundleIdentifier: "com.apple.iTunes")
         spotify = SBApplication.init(bundleIdentifier: "com.spotify.client")
         
-        // Style
-        /// Not implemented yet
         
         // MusicBar Button and menu setup
         MusicBarSI.menu = menu
@@ -82,11 +88,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(NSMenuItem(title: "Other Settings", action: nil, keyEquivalent: ""))
         menu.item(withTitle: "Other Settings")?.submenu = otherSettingsSubmenu
         otherSettingsSubmenu.addItem(NSMenuItem(title: "Auto launch at login", action: #selector(toggleAutoLaunch), keyEquivalent: ""))
+        //otherSettingsSubmenu.addItem(NSMenuItem(title: "iTunes Store Country", action: #selector(changeItunesStoreCountry), keyEquivalent: ""))
         
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.shared().terminate), keyEquivalent: ""))
         
-        // Initiate setting buttons
+        // Initiate settings buttons
         
         if UserDefaults.standard.bool(forKey: "MusicBarBlackStyle") {
             viewSettingsSubmenu.item(withTitle: "Black Style")?.state = 1
@@ -116,6 +123,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             otherSettingsSubmenu.item(withTitle: "Auto launch at login")?.state = 1
         } else {
             otherSettingsSubmenu.item(withTitle: "Auto launch at login")?.state = 0
+        }
+        
+        if UserDefaults.standard.string(forKey: "MusicBarITunesStoreCountry") == nil {
+            if let countryCode = (Locale.current as NSLocale).object(forKey: .countryCode) as? String {
+                UserDefaults.standard.setValue(countryCode, forKey: "MusicBarITunesStoreCountry")
+            }
+            otherSettingsSubmenu.item(withTitle: "Auto launch at login")?.state = 1
         }
         
         // Switch music application button
@@ -303,7 +317,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         } else {
             if SMLoginItemSetEnabled("Tungsten.MusicBarHelper" as CFString, true) {
-                UserDefaults.standard.set(false, forKey: "MusicBarAutoLaunch")
+                UserDefaults.standard.set(true, forKey: "MusicBarAutoLaunch")
                 otherSettingsSubmenu.item(withTitle: "Auto launch at login")?.state = 1
             } else {
                 self.showPopover(message: "Failed to add login item")

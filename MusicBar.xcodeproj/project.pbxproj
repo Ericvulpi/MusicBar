@@ -709,6 +709,7 @@
 				07FB36A31EB132E90075DB6B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
