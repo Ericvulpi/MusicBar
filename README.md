@@ -5,8 +5,15 @@ Control your music players from the macOS (OS X) menu bar
 ## Features
 
 * Control your music player without having to switch window
+![Screen Shot 2017-05-08 at 19.12.11.png]({{site.baseurl}}/Screen Shot 2017-05-08 at 19.12.11.png)
+
 * Customize your controls :
-  * Button to switch between iTunes and Spotify playback (it also automatically pauses the player your are not using to prevent double playing)
+  * Minimal
+![Screen Shot 2017-05-08 at 18.43.56 edit.png]({{site.baseurl}}/Screen Shot 2017-05-08 at 18.43.56 edit.png)
+
+  * Add the switch button between iTunes and Spotify playback (it also automatically pauses the player your are not using to prevent double playing)
+![Screen Shot 2017-05-08 at 19.28.14.png]({{site.baseurl}}/Screen Shot 2017-05-08 at 19.28.14.png)
+
   * Display track informations (artist & song title)
   * Display and edit iTunes star rating
 * Search for the track you are listening on :
