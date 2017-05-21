@@ -44,3 +44,23 @@ class QueryViewController: NSViewController {
     }
     
 }
+
+class AboutViewController: NSViewController {
+    
+    dynamic var Message: String = "Error"
+    
+    func displayMessage (message: String) -> AboutViewController {
+        let storyboard = NSStoryboard(name: "Main", bundle: nil)
+        let View: AboutViewController = storyboard.instantiateController(withIdentifier: "AboutViewController") as! AboutViewController
+        View.Message = message
+        return View
+    }
+    
+    @IBAction func OpenHomePage(_ sender: Any) {
+        NSWorkspace.shared().open(URL(string: "https://ericvulpi.github.io/MusicBar/")!)
+    }
+
+    @IBAction func BuyMeBeer(_ sender: Any) {
+        NSWorkspace.shared().open(URL(string: "https://www.paypal.me/ericvulpi")!)
+    }
+}

@@ -50,7 +50,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let LeftEdgeSI = NSStatusBar.system().statusItem(withLength: 10)
     
     let Popover = NSPopover()
-    let QueryWindow = NSPopover()
     var eventMonitor: EventMonitor?
 
 
@@ -344,8 +343,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func aboutMusicBar() {
         let dictionary = Bundle.main.infoDictionary!
         let version = dictionary["CFBundleShortVersionString"] as! String
-        
-        self.showPopover(message: "MusicBar " + version + "\nhttps://ericvulpi.github.io/MusicBar/")
+        let build = dictionary["CFBundleVersion"] as! String
+        self.showAboutPopover(message: "MusicBar " + version + "." + build)
     }
 
     
@@ -376,14 +375,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func showQuery(value: String) {
         if let button = MusicBarSI.button {
             if let queryViewController = QueryViewController(nibName: "QueryViewController", bundle: nil) {
-                QueryWindow.contentViewController = queryViewController.displayMessage(query: value)
+                Popover.contentViewController = queryViewController.displayMessage(query: value)
             }
-            QueryWindow.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+            Popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
         }
+        eventMonitor?.start()
     }
     
     func closeQueryWindow(_ sender: AnyObject?) {
-        if let queryViewController = QueryWindow.contentViewController as? QueryViewController {
+        if let queryViewController = Popover.contentViewController as? QueryViewController {
             if queryViewController.QueryResult != nil {
                 if queryViewController.QueryResult.stringValue != "" {
                     UserDefaults.standard.setValue(queryViewController.QueryResult.stringValue, forKey: "MusicBarITunesStoreCountry")
@@ -391,9 +391,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         }
-        QueryWindow.performClose(sender)
+        Popover.performClose(sender)
     }
-        
+    
+    func showAboutPopover(message: String) {
+        if let button = MusicBarSI.button {
+            if let aboutViewController = AboutViewController(nibName: "MessageViewController", bundle: nil) {
+                Popover.contentViewController = aboutViewController.displayMessage(message: message)
+            }
+            Popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+        }
+        eventMonitor?.start()
+    }
+    
 
     // Menu bar button functions
     

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12120"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -758,6 +757,62 @@ DQ
                 <userDefaultsController representsSharedInstance="YES" id="AX9-uA-iUm"/>
             </objects>
             <point key="canvasLocation" x="59" y="840"/>
+        </scene>
+        <!--About View Controller-->
+        <scene sceneID="7Uw-S5-yMp">
+            <objects>
+                <viewController title="About View Controller" storyboardIdentifier="AboutViewController" id="GZh-QF-hPh" customClass="AboutViewController" customModule="MusicBar" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="3tY-Hl-u2C">
+                        <rect key="frame" x="0.0" y="0.0" width="273" height="137"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="etw-Kq-EXo">
+                                <rect key="frame" x="14" y="51" width="245" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="https://ericvulpi.github.io/MusicBar/" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rzc-PH-JpQ">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <connections>
+                                        <action selector="OpenHomePage:" target="GZh-QF-hPh" id="yQm-iQ-76a"/>
+                                    </connections>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZO3-r5-khr">
+                                <rect key="frame" x="79" y="13" width="115" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Buy me a beer" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZN1-Kt-sHY">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="BuyMeBeer:" target="GZh-QF-hPh" id="A20-It-tjf"/>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DUt-vd-8oB">
+                                <rect key="frame" x="56" y="100" width="160" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="6a9-2j-Bwg">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    <connections>
+                                        <binding destination="GZh-QF-hPh" name="displayPatternValue1" keyPath="self.Message" id="fQn-xX-23s">
+                                            <dictionary key="options">
+                                                <string key="NSDisplayPattern">%{value1}@</string>
+                                            </dictionary>
+                                        </binding>
+                                    </connections>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="HomePage" destination="etw-Kq-EXo" id="5AD-xF-dua"/>
+                    </connections>
+                </viewController>
+                <customObject id="e5V-uK-iMi" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="74.5" y="454.5"/>
         </scene>
     </scenes>
 </document>
