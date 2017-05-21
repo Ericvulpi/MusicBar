@@ -29,7 +29,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let otherSettingsSubmenu = NSMenu()
     let countryCodeButton = NSMenuItem()
 
-    let MusicBarSI = NSStatusBar.system().statusItem(withLength: 16)
+    let MusicBarSI = NSStatusBar.system().statusItem(withLength: 20)
     let Separator1SI = NSStatusBar.system().statusItem(withLength: 10)
     let FwdSI = NSStatusBar.system().statusItem(withLength: 18)
     let PlayPauseSI = NSStatusBar.system().statusItem(withLength: 18)
@@ -47,7 +47,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let Star3SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     let Star2SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     let Star1SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
-    let LeftEdgeSI = NSStatusBar.system().statusItem(withLength: 6)
+    let LeftEdgeSI = NSStatusBar.system().statusItem(withLength: 10)
     
     let Popover = NSPopover()
     let QueryWindow = NSPopover()
@@ -87,6 +87,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         otherSettingsSubmenu.addItem(countryCodeButton)
         
         menu.addItem(NSMenuItem.separator())
+        
+        menu.addItem(NSMenuItem(title: "About MusicBar", action: #selector(aboutMusicBar), keyEquivalent: ""))
+        
+        menu.addItem(NSMenuItem.separator())
+        
         menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.shared().terminate), keyEquivalent: ""))
         
         // Initiate settings buttons
@@ -333,6 +338,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         + "(in case MusicBar is not opening the iTunes Store of the correct country). "
         + "Current country code is : " + countryCode)
         showQuery(value: title)
+    }
+
+    
+    func aboutMusicBar() {
+        let dictionary = Bundle.main.infoDictionary!
+        let version = dictionary["CFBundleShortVersionString"] as! String
+        
+        self.showPopover(message: "MusicBar " + version + "\nhttps://ericvulpi.github.io/MusicBar/")
     }
 
     
