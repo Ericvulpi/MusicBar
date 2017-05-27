@@ -5,23 +5,23 @@
 ## Features
 
 #### Control your music player without having to switch window  
-![Screen Shot 2017-05-08 at 19.12.11.jpg](https://github.com/Ericvulpi/MusicBar/raw/master/images/MusicBar/Screen Shot 2017-05-08 at 19.12.11.jpg)
+![Screen Shot 2017-05-08 at 19.12.11.jpg](https://github.com/Ericvulpi/MusicBar/raw/master/images/MusicBar/Screenshot_base.jpg)
 
 #### Customize your controls through the menu :
   * Minimal  
-![](https://github.com/Ericvulpi/MusicBar/raw/master/images/MusicBar/Screen Shot 2017-05-08 at 18.43.56 edit.png)
+![](https://github.com/Ericvulpi/MusicBar/raw/master/images/MusicBar/Screenshot_mini.png)
 
   * Add the switch button between iTunes and Spotify playback (MusicBar automatically pauses the player you are not using to prevent double playing)  
-![](https://github.com/Ericvulpi/MusicBar/raw/master/images/MusicBar/Screen Shot 2017-05-08 at 19.28.14.png)
+![](https://github.com/Ericvulpi/MusicBar/raw/master/images/MusicBar/Screenshot_switch.png)
 
   * Display track informations (artist & song title)  
-![](https://github.com/Ericvulpi/MusicBar/raw/master/images/MusicBar/Screen Shot 2017-05-08 at 18.42.04.png)
+![](https://github.com/Ericvulpi/MusicBar/raw/master/images/MusicBar/Screenshot_track_info.png)
 
   * Display and edit iTunes star rating  
-![](https://github.com/Ericvulpi/MusicBar/raw/master/images/MusicBar/Screen Shot 2017-05-08 at 18.37.00.png)
+![](https://github.com/Ericvulpi/MusicBar/raw/master/images/MusicBar/Screenshot_star.png)
 
   * All this accessed through the menu
-![](https://github.com/Ericvulpi/MusicBar/raw/master/images/MusicBar/Screen Shot 2017-05-08 at 19.41.11.png)
+![](https://github.com/Ericvulpi/MusicBar/raw/master/images/MusicBar/Screenshot_menu.png)
 
 #### Set MusicBar to launch automatically at login in the *Other Settings* menu
 
@@ -31,7 +31,7 @@
   * **Last.fm** : an online music database / social network
 
 #### And lastly ... the awesome black style :)
-![](https://github.com/Ericvulpi/MusicBar/raw/master/images/MusicBar/Screen Shot 2017-05-08 at 19.39.24.png)
+![](https://github.com/Ericvulpi/MusicBar/raw/master/images/MusicBar/Screenshot_black.png)
 
 ## About MusicBar
 
