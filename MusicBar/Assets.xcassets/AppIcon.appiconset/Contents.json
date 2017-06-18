@@ -51,8 +51,9 @@
       "scale" : "1x"
     },
     {
-      "idiom" : "mac",
       "size" : "512x512",
+      "idiom" : "mac",
+      "filename" : "music-key-1024x1024.png",
       "scale" : "2x"
     }
   ],

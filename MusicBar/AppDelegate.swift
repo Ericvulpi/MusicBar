@@ -53,6 +53,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var eventMonitor: EventMonitor?
 
 
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
 
@@ -61,7 +62,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         iTunes = SBApplication.init(bundleIdentifier: "com.apple.iTunes")
         spotify = SBApplication.init(bundleIdentifier: "com.spotify.client")
-        
+    
         
         // MusicBar Button and menu setup
         MusicBarSI.menu = menu
@@ -92,6 +93,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(NSMenuItem.separator())
         
         menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.shared().terminate), keyEquivalent: ""))
+        
         
         // Initiate settings buttons
         
@@ -188,7 +190,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Setting up observers
         
         DistributedNotificationCenter.default().addObserver(self, selector: #selector(iTunesNotificationHandler), name:NSNotification.Name(rawValue: "com.apple.iTunes.playerInfo"), object: nil)
-        DistributedNotificationCenter.default().addObserver(self, selector: #selector(spotifyNotificationHandler), name:NSNotification.Name(rawValue: "com.spotify.client.PlaybackStateChanged"), object: nil)
+        
+        if spotify != nil {
+            DistributedNotificationCenter.default().addObserver(self, selector: #selector(spotifyNotificationHandler), name:NSNotification.Name(rawValue: "com.spotify.client.PlaybackStateChanged"), object: nil)
+        }
+        
 
     }
 
@@ -220,8 +226,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func searchITunesStore(sender:NSStatusBar) {
         
+        var countryCode = String()
+        if UserDefaults.standard.string(forKey: "MusicBarITunesStoreCountry")! == "" {
+            countryCode = "empty"
+        } else {
+            countryCode = UserDefaults.standard.string(forKey: "MusicBarITunesStoreCountry")!
+        }
+        
         let SearchString: String = searchString()
-        let SearchURLRequest: URLRequest = URLRequest(url: URL(string: "https://itunes.apple.com/search?country=fr&term=" + SearchString)!)
+        let SearchURLRequest: URLRequest = URLRequest(url: URL(string: "https://itunes.apple.com/search?country=" + countryCode + "&term=" + SearchString)!)
+        
+        print(SearchURLRequest)
+        
+        var searchError = String()
         
         let search = URLSession.shared.dataTask(with: SearchURLRequest, completionHandler: {
             (data, response, error) in
@@ -232,14 +249,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 do {
                     if let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any] {
                         
-                        if json["resultCount"] as! NSInteger > 0 {
-                            var trackURL: NSString = ((json["results"] as! NSArray)[0] as! NSDictionary)["trackViewUrl"] as! NSString
-                            trackURL =  trackURL.replacingOccurrences(of: "https://", with: "itms://") as NSString
-
-                            NSWorkspace.shared().open(URL(string: "\(trackURL)&app=itunes" as String)!)
+                        if json["errorMessage"] != nil {
+                            if json["errorMessage"] as! String == "Invalid value(s) for key(s): [country]" {
+                                searchError = "iTunes Store country code invalid. \nPlease correct it in the menu : \nOther Settings / Edit iTunes Store Country"
+                            } else {
+                                searchError = json["errorMessage"] as! String
+                            }
                         } else {
-                            DispatchQueue.main.async {
-                                self.showPopover(message: "Track not found in iTunes")
+                            if json["resultCount"] as! NSInteger > 0 {
+                                var trackURL: NSString = ((json["results"] as! NSArray)[0] as! NSDictionary)["trackViewUrl"] as! NSString
+                                trackURL =  trackURL.replacingOccurrences(of: "https://", with: "itms://") as NSString
+                                
+                                NSWorkspace.shared().open(URL(string: "\(trackURL)&app=itunes" as String)!)
+                            } else {
+                                DispatchQueue.main.async {
+                                    self.showPopover(message: "Track not found in iTunes")
+                                }
                             }
                         }
 
@@ -248,13 +273,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 } catch {
                     print("error in JSONSerialization")
                 }
-                
+                if searchError != "" {
+                    DispatchQueue.main.async {
+                        self.showPopover(message: searchError)
+                    }
+                }
                 
             }
             
         })
-
+        
         search.resume()
+        
+        
         
     }
     
@@ -409,8 +440,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func switchMusicApp(sender:NSStatusBar) {
         if currentApp == "iTunes" {
-            iTunes.pause() as Void
-            spotify.play() as Void
+            spotify = SBApplication.init(bundleIdentifier: "com.spotify.client")
+            if spotify != nil {
+                if spotify.isRunning == true {
+                    self.spotify.play() as Void
+                    self.iTunes.pause() as Void
+                } else {
+                    DispatchQueue.main.async {
+                        self.spotify.play() as Void
+                    }
+                    if let CurrentAppButton = SwitchAppSI.button {
+                        if UserDefaults.standard.bool(forKey: "MusicBarBlackStyle") {
+                            CurrentAppButton.image = NSImage(named: "WaitB")
+                        } else {
+                            CurrentAppButton.image = NSImage(named: "WaitW")
+                        }
+                        CurrentAppButton.image?.isTemplate = true
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10), execute: {
+                        self.spotify.play() as Void
+                    })
+                }
+            } else {
+                self.showPopover(message: "It looks like Spotify is not \ninstalled on your computer. \nTo install Spotify, go to : \nhttps://www.spotify.com")
+            }
         } else if currentApp == "spotify" {
             if iTunesEPlSPlaying != iTunes.playerState {
                 iTunes.playpause()
@@ -488,7 +541,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // If iTunes is closed
         if iTunes.isRunning == false || iTunes.playerState == iTunesEPlS(rawValue: 0) {
             // If Spotify is open => switch to spotify
-            if spotify.isRunning == true {
+            if spotify != nil && spotify.isRunning == true {
                 updateSpotifyDisplay()
             // If Spotify is closed => switch to standby
             } else {
@@ -502,7 +555,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             updateITunesDisplay()
             
             // If Spotify is open => pause
-            if spotify.isRunning == true {
+            if spotify != nil && spotify.isRunning == true {
                 spotify.pause() as Void
             }
         
@@ -519,6 +572,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func spotifyNotificationHandler() {
+        
+        if spotify == nil {
+            return
+        }
         
         // If spotify is closed
         if spotify.isRunning == false || spotify.playerState == SpotifyEPlS(rawValue: 0) {
@@ -633,7 +690,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         musicBarStandBy()
         iTunesNotificationHandler()
-        spotifyNotificationHandler()
+        if spotify != nil {
+            spotifyNotificationHandler()
+        }
     }
     
     func updateSwitchAppDisplay() {
@@ -730,6 +789,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func updateSpotifyDisplay() {
+        
+        if spotify == nil {
+            return
+        }
         
         let track: SpotifyTrack = spotify.currentTrack;
         
