@@ -341,14 +341,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func toggleAutoLaunch() {
         if UserDefaults.standard.bool(forKey: "MusicBarAutoLaunch") {
-            if SMLoginItemSetEnabled("Tungsten.MusicBarHelper" as CFString, false) {
+            if SMLoginItemSetEnabled("tungsten.MusicBarHelper" as CFString, false) {
                 UserDefaults.standard.set(false, forKey: "MusicBarAutoLaunch")
                 otherSettingsSubmenu.item(withTitle: "Auto launch at login")?.state = 0
             } else {
                 self.showPopover(message: "Failed to remove login item")
             }
         } else {
-            if SMLoginItemSetEnabled("Tungsten.MusicBarHelper" as CFString, true) {
+            if SMLoginItemSetEnabled("tungsten.MusicBarHelper" as CFString, true) {
                 UserDefaults.standard.set(true, forKey: "MusicBarAutoLaunch")
                 otherSettingsSubmenu.item(withTitle: "Auto launch at login")?.state = 1
             } else {
