@@ -16,6 +16,8 @@
 		07BFF19C1E3C1C78008DC441 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BFF19B1E3C1C78008DC441 /* AppDelegate.swift */; };
 		07BFF1A01E3C1C78008DC441 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07BFF19F1E3C1C78008DC441 /* Assets.xcassets */; };
 		07BFF1A31E3C1C78008DC441 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07BFF1A11E3C1C78008DC441 /* Main.storyboard */; };
+		07E714B021BDB0A30073D5E1 /* emptyBridge.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 07E714AF21BDB0A30073D5E1 /* emptyBridge.applescript */; };
+		07E714B221BDB0B60073D5E1 /* emptyBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E714B121BDB0B60073D5E1 /* emptyBridge.swift */; };
 		07FB36941EB132E90075DB6B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FB36931EB132E90075DB6B /* AppDelegate.m */; };
 		07FB36971EB132E90075DB6B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FB36961EB132E90075DB6B /* main.m */; };
 		07FB369A1EB132E90075DB6B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FB36991EB132E90075DB6B /* ViewController.m */; };
@@ -57,6 +59,8 @@
 		07BFF1AF1E3C1C78008DC441 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		07BFF1B81E3C1C78008DC441 /* MusicBarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicBarUITests.swift; sourceTree = "<group>"; };
 		07BFF1BA1E3C1C78008DC441 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		07E714AF21BDB0A30073D5E1 /* emptyBridge.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; name = emptyBridge.applescript; path = "../../Swift-AppleScriptObjC/Swift-AppleScriptObjC/emptyBridge.applescript"; sourceTree = "<group>"; };
+		07E714B121BDB0B60073D5E1 /* emptyBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = emptyBridge.swift; sourceTree = "<group>"; };
 		07FB36901EB132E90075DB6B /* MusicBarHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicBarHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07FB36921EB132E90075DB6B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		07FB36931EB132E90075DB6B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -131,6 +135,8 @@
 				07A89BF521A6038B0007C7A8 /* iTunesBridge.swift */,
 				07A89BF421A6038A0007C7A8 /* spotifyBridge.applescript */,
 				07A89BF621A6038B0007C7A8 /* spotifyBridge.swift */,
+				07E714AF21BDB0A30073D5E1 /* emptyBridge.applescript */,
+				07E714B121BDB0B60073D5E1 /* emptyBridge.swift */,
 				07BFF1A11E3C1C78008DC441 /* Main.storyboard */,
 				07BFF19F1E3C1C78008DC441 /* Assets.xcassets */,
 				07BFF1A41E3C1C78008DC441 /* Info.plist */,
@@ -314,6 +320,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07E714B221BDB0B60073D5E1 /* emptyBridge.swift in Sources */,
+				07E714B021BDB0A30073D5E1 /* emptyBridge.applescript in Sources */,
 				07BFF19C1E3C1C78008DC441 /* AppDelegate.swift in Sources */,
 				07FDD6771E7DB921002C2D70 /* MessageViewController.swift in Sources */,
 				07A89BF921A6038B0007C7A8 /* iTunesBridge.swift in Sources */,

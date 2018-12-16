@@ -85,11 +85,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         currentApp = DefaultCurrentApp
         // AppleScriptObjC setup
         Bundle.main.loadAppleScriptObjectiveCScripts()
+        
         // create an instance of iTunesBridge script object for Swift code to use
         let iTunesBridgeClass: AnyClass = NSClassFromString("iTunesBridge")!
-        let spotifyBridgeClass: AnyClass = NSClassFromString("spotifyBridge")!
         self.iTunesBridge = iTunesBridgeClass.alloc() as! iTunesBridge
-        self.spotifyBridge = spotifyBridgeClass.alloc() as! spotifyBridge
+        
+        if LSCopyApplicationURLsForBundleIdentifier("com.spotify.client" as CFString, nil) != nil {
+            let spotifyBridgeClass: AnyClass = NSClassFromString("spotifyBridge")!
+            self.spotifyBridge = spotifyBridgeClass.alloc() as! spotifyBridge
+        } else {
+            let spotifyBridgeClass: AnyClass = NSClassFromString("emptyBridge")!
+            self.spotifyBridge = spotifyBridgeClass.alloc() as! spotifyBridge
+        }
+        
         super.init()
     }
     
@@ -218,10 +226,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         eventMonitor = EventMonitor(mask: [.leftMouseDown, .rightMouseDown]) { [unowned self] event in
             if self.Popover.isShown {
-                self.closePopover(event)
+                self.closePopover(self.Popover)
             }
         }
-        eventMonitor?.start()
 
         
         // Initialize display
@@ -232,8 +239,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         DistributedNotificationCenter.default().addObserver(self, selector: #selector(iTunesNotificationHandler), name:NSNotification.Name(rawValue: "com.apple.iTunes.playerInfo"), object: nil)
         
-        if spotifyBridge.playerState != 0 {
+        if LSCopyApplicationURLsForBundleIdentifier("com.spotify.client" as CFString, nil) != nil {
+            print("spotify installed")
             DistributedNotificationCenter.default().addObserver(self, selector: #selector(spotifyNotificationHandler), name:NSNotification.Name(rawValue: "com.spotify.client.PlaybackStateChanged"), object: nil)
+        } else {
+            print("spotify not installed")
         }
         
 
@@ -242,8 +252,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
-
-    
     
     // Menu buttons functions
     
@@ -350,9 +358,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if UserDefaults.standard.bool(forKey: "MusicBarSwitchApp") {
             UserDefaults.standard.set(false, forKey: "MusicBarSwitchApp")
             viewSettingsSubmenu.item(withTitle: "Switch Player Button")?.state = 0
-        } else {
+        } else if LSCopyApplicationURLsForBundleIdentifier("com.spotify.client" as CFString, nil) != nil {
             UserDefaults.standard.set(true, forKey: "MusicBarSwitchApp")
             viewSettingsSubmenu.item(withTitle: "Switch Player Button")?.state = 1
+        } else {
+            self.showPopover(message: "It looks like Spotify is not \ninstalled on your computer. \nTo install Spotify, go to : \nhttps://www.spotify.com")
         }
         updateSwitchAppDisplay()
     }
@@ -434,6 +444,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func closePopover(_ sender: AnyObject?) {
         Popover.performClose(sender)
+        Popover.contentViewController = nil
         eventMonitor?.stop()
     }
     
@@ -454,17 +465,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         eventMonitor?.start()
     }
     
-    func closeQueryWindow(_ sender: AnyObject?) {
+    func okQueryWindow(_ sender: AnyObject?) {
         if let queryViewController = Popover.contentViewController as? QueryViewController {
             if queryViewController.QueryResult != nil {
                 if queryViewController.QueryResult.stringValue != "" {
                     UserDefaults.standard.setValue(queryViewController.QueryResult.stringValue, forKey: "MusicBarITunesStoreCountry")
-                    countryCodeButton.title = "Edit iTunes Store Country"
                 }
             }
         }
-        Popover.performClose(sender)
+        closePopover(sender)
     }
+
     
     func showAboutPopover(message: String) {
         if let button = MusicBarSI.button {
@@ -479,9 +490,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     // Menu bar button functions
     
+    
     func switchMusicApp(sender:NSStatusBar) {
         if currentApp == "iTunes" {
-            if spotifyBridge.playerState != 0 {
+            if LSCopyApplicationURLsForBundleIdentifier("com.spotify.client" as CFString, nil) != nil {
                 if spotifyBridge.isRunning == true {
                     spotifyBridge.play()
                     iTunesBridge.pause()
@@ -497,8 +509,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                         }
                         CurrentAppButton.image?.isTemplate = true
                     }
+                    currentApp = "wait"
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5), execute: {
+                        if self.currentApp == "wait" {
+                            self.spotifyBridge.play()
+                        }
+                    })
                     DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10), execute: {
-                        self.spotifyBridge.play()
+                        if self.currentApp == "wait" {
+                            self.spotifyBridge.play()
+                        }
+                    })
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(20), execute: {
+                        if self.currentApp == "wait" {
+                            self.spotifyBridge.play()
+                        }
                     })
                 }
             } else {
@@ -506,7 +531,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         } else if currentApp == "spotify" {
             iTunesBridge.play()
-            spotifyBridge.pause()
+            if spotifyBridge.isRunning {
+                spotifyBridge.pause()
+            }
+        } else {
+            initializeDisplay()
         }
     }
     
@@ -568,6 +597,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func iTunesNotificationHandler() {
         
+        print("iTunes notification")
+        
         // If iTunes is closed
         if iTunesBridge.isRunning == false || iTunesBridge.playerState == 0 {
             // If Spotify is open => switch to spotify
@@ -603,12 +634,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func spotifyNotificationHandler() {
         
-        if spotifyBridge.playerState == 0 {
-            return
-        }
         
         // If spotify is closed
         if spotifyBridge.isRunning == false {
+            print("test1")
             // If iTunes is open => switch to iTunes
             if iTunesBridge.isRunning == true {
                 updateITunesDisplay()
@@ -718,13 +747,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         musicBarStandBy()
         iTunesNotificationHandler()
-        if spotifyBridge.playerState != 0 {
+        if spotifyBridge.isRunning == true {
             spotifyNotificationHandler()
         }
     }
     
     func updateSwitchAppDisplay() {
-        if UserDefaults.standard.bool(forKey: "MusicBarSwitchApp") {
+        if UserDefaults.standard.bool(forKey: "MusicBarSwitchApp") &&
+            LSCopyApplicationURLsForBundleIdentifier("com.spotify.client" as CFString, nil) != nil {
             Separator2SI.length = 10
             SwitchAppSI.length = 36
             if currentApp == "spotify" {
@@ -759,7 +789,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         // Remove spotify display if necessary
-        if currentApp == "spotify" {
+        if currentApp != "iTunes" {
             currentApp = "iTunes"
             if UserDefaults.standard.bool(forKey: "MusicBarSwitchApp") {
                 updateSwitchAppDisplay()
@@ -813,7 +843,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func updateSpotifyDisplay() {
         
-        if spotifyBridge.playerState == 0 {
+        if spotifyBridge.isRunning == false {
             return
         }
         
@@ -830,7 +860,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         // Switch App
-        if currentApp == "iTunes" {
+        if currentApp != "spotify" {
             currentApp = "spotify"
             updateSwitchAppDisplay()
         }

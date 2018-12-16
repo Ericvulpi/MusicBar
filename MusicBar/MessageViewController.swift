@@ -40,7 +40,12 @@ class QueryViewController: NSViewController {
     
     @IBAction func QueryFinished(_ sender: Any) {
         let appDelegate = NSApplication.shared().delegate as! AppDelegate
-        appDelegate.closeQueryWindow(sender as AnyObject)
+        appDelegate.okQueryWindow(sender as AnyObject)
+    }
+    
+    @IBAction func QueryCancel(_ sender: Any) {
+        let appDelegate = NSApplication.shared().delegate as! AppDelegate
+        appDelegate.closePopover(sender as AnyObject)
     }
     
 }
