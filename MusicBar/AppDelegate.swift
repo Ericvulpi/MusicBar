@@ -15,44 +15,44 @@ import ServiceManagement
 
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    // AppleScriptObjC object for communicating with iTunes
-    var iTunesBridge: iTunesBridge
+    // AppleScriptObjC object for communicating with MusicApp
+    var MusicAppBridge: MusicAppBridge
     var spotifyBridge: spotifyBridge
     
-    var iTunes: AnyObject!
+    var MusicApp: AnyObject!
     var spotify: AnyObject!
     var currentApp: String!
     var title: NSString!
     var artist: NSString!
     var album: NSString!
     var iconDic = [String: String]()
-    let DefaultCurrentApp: String = "iTunes"
+    let DefaultCurrentApp: String = "MusicApp"
     
     let menu = NSMenu()
     let viewSettingsSubmenu = NSMenu()
     let otherSettingsSubmenu = NSMenu()
     let countryCodeButton = NSMenuItem()
 
-    let MusicBarSI = NSStatusBar.system().statusItem(withLength: 20)
-    let Separator1SI = NSStatusBar.system().statusItem(withLength: 10)
-    let FwdSI = NSStatusBar.system().statusItem(withLength: 18)
-    let PlayPauseSI = NSStatusBar.system().statusItem(withLength: 18)
-    let BackSI = NSStatusBar.system().statusItem(withLength: 18)
-    let Separator2SI = NSStatusBar.system().statusItem(withLength: -1)
-    let SwitchAppSI = NSStatusBar.system().statusItem(withLength: -1)
-    let TextEdgeRightSI = NSStatusBar.system().statusItem(withLength: -1)
-    let ArtistBarSI = NSStatusBar.system().statusItem(withLength: -1)
-    let Separator3SI = NSStatusBar.system().statusItem(withLength: -1)
-    let TitleBarSI = NSStatusBar.system().statusItem(withLength: -1)
-    let TextEdgeLeftSI = NSStatusBar.system().statusItem(withLength: -1)
-    let ArtworkSI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
-    let Star5SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
-    let Star4SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
-    let Star3SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
-    let Star2SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
-    let Star1SI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
+    let MusicBarSI = NSStatusBar.system.statusItem(withLength: 20)
+    let Separator1SI = NSStatusBar.system.statusItem(withLength: 10)
+    let FwdSI = NSStatusBar.system.statusItem(withLength: 18)
+    let PlayPauseSI = NSStatusBar.system.statusItem(withLength: 18)
+    let BackSI = NSStatusBar.system.statusItem(withLength: 18)
+    let Separator2SI = NSStatusBar.system.statusItem(withLength: -1)
+    let SwitchAppSI = NSStatusBar.system.statusItem(withLength: -1)
+    let TextEdgeRightSI = NSStatusBar.system.statusItem(withLength: -1)
+    let ArtistBarSI = NSStatusBar.system.statusItem(withLength: -1)
+    let Separator3SI = NSStatusBar.system.statusItem(withLength: -1)
+    let TitleBarSI = NSStatusBar.system.statusItem(withLength: -1)
+    let TextEdgeLeftSI = NSStatusBar.system.statusItem(withLength: -1)
+    let ArtworkSI = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    let Star5SI = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    let Star4SI = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    let Star3SI = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    let Star2SI = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    let Star1SI = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 //    let HeartSI = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
-    let LeftEdgeSI = NSStatusBar.system().statusItem(withLength: 10)
+    let LeftEdgeSI = NSStatusBar.system.statusItem(withLength: 10)
     
     let Popover = NSPopover()
     var eventMonitor: EventMonitor?
@@ -66,15 +66,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @objc dynamic var soundVolume: NSNumber! {
         get {
-            if currentApp == "iTunes" {
-                return self.iTunesBridge.isRunning ? self.iTunesBridge.soundVolume : 0
+            if currentApp == "MusicApp" {
+                return self.MusicAppBridge.isRunning ? self.MusicAppBridge.soundVolume : 0
             } else {
                 return self.spotifyBridge.isRunning ? self.spotifyBridge.soundVolume : 0
             }
         }
         set(value) {
-            if currentApp == "iTunes" {
-                self.iTunesBridge.soundVolume = value
+            if currentApp == "MusicApp" {
+                self.MusicAppBridge.soundVolume = value
             } else {
                 self.spotifyBridge.soundVolume = value
             }
@@ -86,9 +86,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // AppleScriptObjC setup
         Bundle.main.loadAppleScriptObjectiveCScripts()
         
-        // create an instance of iTunesBridge script object for Swift code to use
-        let iTunesBridgeClass: AnyClass = NSClassFromString("iTunesBridge")!
-        self.iTunesBridge = iTunesBridgeClass.alloc() as! iTunesBridge
+        // create an instance of MusicAppBridge script object for Swift code to use
+        let MusicAppBridgeClass: AnyClass = NSClassFromString("MusicAppBridge")!
+        self.MusicAppBridge = MusicAppBridgeClass.alloc() as! MusicAppBridge
         
         if LSCopyApplicationURLsForBundleIdentifier("com.spotify.client" as CFString, nil) != nil {
             let spotifyBridgeClass: AnyClass = NSClassFromString("spotifyBridge")!
@@ -105,7 +105,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to initialize your application
         
         // Variables initialization
-        //iTunes = SBApplication.init(bundleIdentifier: "com.apple.iTunes")
+        //MusicApp = SBApplication.init(bundleIdentifier: "com.apple.Music")
         //spotify = SBApplication.init(bundleIdentifier: "com.spotify.client")
     
         
@@ -123,7 +123,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         viewSettingsSubmenu.addItem(NSMenuItem(title: "Black Style", action: #selector(toggleBlackStyle), keyEquivalent: ""))
         viewSettingsSubmenu.addItem(NSMenuItem(title: "Switch Player Button", action: #selector(toggleSwitchAppButton), keyEquivalent: ""))
         viewSettingsSubmenu.addItem(NSMenuItem(title: "Track information", action: #selector(toggleTrackInfo), keyEquivalent: ""))
-        viewSettingsSubmenu.addItem(NSMenuItem(title: "iTunes Ratings", action: #selector(toggleRatings), keyEquivalent: ""))
+        viewSettingsSubmenu.addItem(NSMenuItem(title: "MusicApp Ratings", action: #selector(toggleRatings), keyEquivalent: ""))
         
         menu.addItem(NSMenuItem(title: "Other Settings", action: nil, keyEquivalent: ""))
         menu.item(withTitle: "Other Settings")?.submenu = otherSettingsSubmenu
@@ -137,39 +137,39 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         menu.addItem(NSMenuItem.separator())
         
-        menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.shared().terminate), keyEquivalent: ""))
+        menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.shared.terminate), keyEquivalent: ""))
         
         
         // Initiate settings buttons
         
         if UserDefaults.standard.bool(forKey: "MusicBarBlackStyle") {
-            viewSettingsSubmenu.item(withTitle: "Black Style")?.state = 1
+            viewSettingsSubmenu.item(withTitle: "Black Style")?.state = NSControl.StateValue(rawValue: 1)
         } else {
-            viewSettingsSubmenu.item(withTitle: "Black Style")?.state = 0
+            viewSettingsSubmenu.item(withTitle: "Black Style")?.state = NSControl.StateValue(rawValue: 0)
         }
         
         if UserDefaults.standard.bool(forKey: "MusicBarSwitchApp") {
-            viewSettingsSubmenu.item(withTitle: "Switch Player Button")?.state = 1
+            viewSettingsSubmenu.item(withTitle: "Switch Player Button")?.state = NSControl.StateValue(rawValue: 1)
         } else {
-            viewSettingsSubmenu.item(withTitle: "Switch Player Button")?.state = 0
+            viewSettingsSubmenu.item(withTitle: "Switch Player Button")?.state = NSControl.StateValue(rawValue: 0)
         }
         
         if UserDefaults.standard.bool(forKey: "MusicBarTrackInfo") {
-            viewSettingsSubmenu.item(withTitle: "Track information")?.state = 1
+            viewSettingsSubmenu.item(withTitle: "Track information")?.state = NSControl.StateValue(rawValue: 1)
         } else {
-            viewSettingsSubmenu.item(withTitle: "Track information")?.state = 0
+            viewSettingsSubmenu.item(withTitle: "Track information")?.state = NSControl.StateValue(rawValue: 0)
         }
         
         if UserDefaults.standard.bool(forKey: "MusicBarViewRatings") {
-            viewSettingsSubmenu.item(withTitle: "iTunes Ratings")?.state = 1
+            viewSettingsSubmenu.item(withTitle: "MusicApp Ratings")?.state = NSControl.StateValue(rawValue: 1)
         } else {
-            viewSettingsSubmenu.item(withTitle: "iTunes Ratings")?.state = 0
+            viewSettingsSubmenu.item(withTitle: "MusicApp Ratings")?.state = NSControl.StateValue(rawValue: 0)
         }
         
         if UserDefaults.standard.bool(forKey: "MusicBarAutoLaunch") {
-            otherSettingsSubmenu.item(withTitle: "Auto launch at login")?.state = 1
+            otherSettingsSubmenu.item(withTitle: "Auto launch at login")?.state = NSControl.StateValue(rawValue: 1)
         } else {
-            otherSettingsSubmenu.item(withTitle: "Auto launch at login")?.state = 0
+            otherSettingsSubmenu.item(withTitle: "Auto launch at login")?.state = NSControl.StateValue(rawValue: 0)
         }
                 
         if UserDefaults.standard.string(forKey: "MusicBarITunesStoreCountry") == nil {
@@ -224,7 +224,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Popover control setup
         
-        eventMonitor = EventMonitor(mask: [.leftMouseDown, .rightMouseDown]) { [unowned self] event in
+        eventMonitor = EventMonitor(mask: [NSEvent.EventTypeMask.leftMouseDown, NSEvent.EventTypeMask.rightMouseDown]) { [unowned self] event in
             if self.Popover.isShown {
                 self.closePopover(self.Popover)
             }
@@ -237,7 +237,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Setting up observers
         
-        DistributedNotificationCenter.default().addObserver(self, selector: #selector(iTunesNotificationHandler), name:NSNotification.Name(rawValue: "com.apple.iTunes.playerInfo"), object: nil)
+        DistributedNotificationCenter.default().addObserver(self, selector: #selector(MusicAppNotificationHandler), name:NSNotification.Name(rawValue: "com.apple.Music.playerInfo"), object: nil)
         
         if LSCopyApplicationURLsForBundleIdentifier("com.spotify.client" as CFString, nil) != nil {
             print("spotify installed")
@@ -268,12 +268,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return SearchString
     }
     
-    func searchYouTube(sender:NSStatusBar) {
+    @objc func searchYouTube(sender:NSStatusBar) {
         let SearchString: String = searchString()
-        NSWorkspace.shared().open(URL(string: "https://www.youtube.com/results?search_query=" + SearchString)!)
+        NSWorkspace.shared.open(URL(string: "https://www.youtube.com/results?search_query=" + SearchString)!)
     }
     
-    func searchITunesStore(sender:NSStatusBar) {
+    @objc func searchITunesStore(sender:NSStatusBar) {
         
         var countryCode = String()
         if UserDefaults.standard.string(forKey: "MusicBarITunesStoreCountry")! == "" {
@@ -309,7 +309,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                 var trackURL: NSString = ((json["results"] as! NSArray)[0] as! NSDictionary)["trackViewUrl"] as! NSString
                                 trackURL =  trackURL.replacingOccurrences(of: "https://", with: "itms://") as NSString
                                 
-                                NSWorkspace.shared().open(URL(string: "\(trackURL)&app=itunes" as String)!)
+                                NSWorkspace.shared.open(URL(string: "\(trackURL)&app=itunes" as String)!)
                             } else {
                                 DispatchQueue.main.async {
                                     self.showPopover(message: "Track not found in iTunes")
@@ -338,77 +338,77 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
     }
     
-    func searchLastFM() {
+    @objc func searchLastFM() {
         let SearchString: String = searchString()
-        NSWorkspace.shared().open(URL(string: "https://www.last.fm/search?q=" + SearchString)!)
+        NSWorkspace.shared.open(URL(string: "https://www.last.fm/search?q=" + SearchString)!)
     }
     
-    func toggleBlackStyle() {
+    @objc func toggleBlackStyle() {
         if UserDefaults.standard.bool(forKey: "MusicBarBlackStyle") {
             UserDefaults.standard.set(false, forKey: "MusicBarBlackStyle")
-            viewSettingsSubmenu.item(withTitle: "Black Style")?.state = 0
+            viewSettingsSubmenu.item(withTitle: "Black Style")?.state = NSControl.StateValue(rawValue: 0)
         } else {
             UserDefaults.standard.set(true, forKey: "MusicBarBlackStyle")
-            viewSettingsSubmenu.item(withTitle: "Black Style")?.state = 1
+            viewSettingsSubmenu.item(withTitle: "Black Style")?.state = NSControl.StateValue(rawValue: 1)
         }
         initializeDisplay()
     }
     
-    func toggleSwitchAppButton() {
+    @objc func toggleSwitchAppButton() {
         if UserDefaults.standard.bool(forKey: "MusicBarSwitchApp") {
             UserDefaults.standard.set(false, forKey: "MusicBarSwitchApp")
-            viewSettingsSubmenu.item(withTitle: "Switch Player Button")?.state = 0
+            viewSettingsSubmenu.item(withTitle: "Switch Player Button")?.state = NSControl.StateValue(rawValue: 0)
         } else if LSCopyApplicationURLsForBundleIdentifier("com.spotify.client" as CFString, nil) != nil {
             UserDefaults.standard.set(true, forKey: "MusicBarSwitchApp")
-            viewSettingsSubmenu.item(withTitle: "Switch Player Button")?.state = 1
+            viewSettingsSubmenu.item(withTitle: "Switch Player Button")?.state = NSControl.StateValue(rawValue: 1)
         } else {
             self.showPopover(message: "It looks like Spotify is not \ninstalled on your computer. \nTo install Spotify, go to : \nhttps://www.spotify.com")
         }
         updateSwitchAppDisplay()
     }
     
-    func toggleTrackInfo() {
+    @objc func toggleTrackInfo() {
         if UserDefaults.standard.bool(forKey: "MusicBarTrackInfo") {
             UserDefaults.standard.set(false, forKey: "MusicBarTrackInfo")
-            viewSettingsSubmenu.item(withTitle: "Track information")?.state = 0
+            viewSettingsSubmenu.item(withTitle: "Track information")?.state = NSControl.StateValue(rawValue: 0)
         } else {
             UserDefaults.standard.set(true, forKey: "MusicBarTrackInfo")
-            viewSettingsSubmenu.item(withTitle: "Track information")?.state = 1
+            viewSettingsSubmenu.item(withTitle: "Track information")?.state = NSControl.StateValue(rawValue: 1)
         }
         updateTrackDisplay()
     }
     
-    func toggleRatings() {
+    @objc func toggleRatings() {
         if UserDefaults.standard.bool(forKey: "MusicBarViewRatings") {
             UserDefaults.standard.set(false, forKey: "MusicBarViewRatings")
-            viewSettingsSubmenu.item(withTitle: "iTunes Ratings")?.state = 0
+            viewSettingsSubmenu.item(withTitle: "MusicApp Ratings")?.state = NSControl.StateValue(rawValue: 0)
         } else {
             UserDefaults.standard.set(true, forKey: "MusicBarViewRatings")
-            viewSettingsSubmenu.item(withTitle: "iTunes Ratings")?.state = 1
+            viewSettingsSubmenu.item(withTitle: "MusicApp Ratings")?.state = NSControl.StateValue(rawValue: 1)
         }
         
         updateRatingDisplay()
     }
     
-    func toggleAutoLaunch() {
+    @objc func toggleAutoLaunch() {
         if UserDefaults.standard.bool(forKey: "MusicBarAutoLaunch") {
             if SMLoginItemSetEnabled("tungsten.MusicBarHelper" as CFString, false) {
                 UserDefaults.standard.set(false, forKey: "MusicBarAutoLaunch")
-                otherSettingsSubmenu.item(withTitle: "Auto launch at login")?.state = 0
+                otherSettingsSubmenu.item(withTitle: "Auto launch at login")?.state = NSControl.StateValue(rawValue: 0)
             } else {
                 self.showPopover(message: "Failed to remove login item")
             }
         } else {
             if SMLoginItemSetEnabled("tungsten.MusicBarHelper" as CFString, true) {
                 UserDefaults.standard.set(true, forKey: "MusicBarAutoLaunch")
-                otherSettingsSubmenu.item(withTitle: "Auto launch at login")?.state = 1
+                otherSettingsSubmenu.item(withTitle: "Auto launch at login")?.state = NSControl.StateValue(rawValue: 1)
             } else {
                 self.showPopover(message: "Failed to add login item")
             }
         }
     }
     
-    func changeItunesStoreCountry() {
+    @objc func changeItunesStoreCountry() {
         var countryCode = String()
         if UserDefaults.standard.string(forKey: "MusicBarITunesStoreCountry")! == "" {
             countryCode = "empty"
@@ -422,7 +422,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     
-    func aboutMusicBar() {
+    @objc func aboutMusicBar() {
         let dictionary = Bundle.main.infoDictionary!
         let version = dictionary["CFBundleShortVersionString"] as! String
         let build = dictionary["CFBundleVersion"] as! String
@@ -434,9 +434,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func showPopover(message: String) {
         if let button = MusicBarSI.button {
-            if let messageViewController = MessageViewController(nibName: "MessageViewController", bundle: nil) {
-                Popover.contentViewController = messageViewController.displayMessage(message: message)
-            }
+            let messageViewController = MessageViewController(nibName: "MessageViewController", bundle: nil)
+            Popover.contentViewController = messageViewController.displayMessage(message: message)
             Popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
         }
         eventMonitor?.start()
@@ -457,9 +456,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func showQuery(value: String) {
         if let button = MusicBarSI.button {
-            if let queryViewController = QueryViewController(nibName: "QueryViewController", bundle: nil) {
-                Popover.contentViewController = queryViewController.displayMessage(query: value)
-            }
+            let queryViewController = QueryViewController(nibName: "QueryViewController", bundle: nil)
+            Popover.contentViewController = queryViewController.displayMessage(query: value)
             Popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
         }
         eventMonitor?.start()
@@ -479,9 +477,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func showAboutPopover(message: String) {
         if let button = MusicBarSI.button {
-            if let aboutViewController = AboutViewController(nibName: "MessageViewController", bundle: nil) {
-                Popover.contentViewController = aboutViewController.displayMessage(message: message)
-            }
+            let aboutViewController = AboutViewController(nibName: "MessageViewController", bundle: nil)
+            Popover.contentViewController = aboutViewController.displayMessage(message: message)
             Popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
         }
         eventMonitor?.start()
@@ -491,46 +488,48 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Menu bar button functions
     
     
-    func switchMusicApp(sender:NSStatusBar) {
-        if currentApp == "iTunes" {
+    @objc func switchMusicApp(sender:NSStatusBar) {
+        if currentApp == "MusicApp" {
             if LSCopyApplicationURLsForBundleIdentifier("com.spotify.client" as CFString, nil) != nil {
-                if spotifyBridge.isRunning == true {
-                    spotifyBridge.play()
-                    iTunesBridge.pause()
-                } else {
-                    DispatchQueue.main.async {
-                        self.spotifyBridge.play()
-                    }
-                    if let CurrentAppButton = SwitchAppSI.button {
-                        if UserDefaults.standard.bool(forKey: "MusicBarBlackStyle") {
-                            CurrentAppButton.image = NSImage(named: "WaitB")
-                        } else {
-                            CurrentAppButton.image = NSImage(named: "WaitW")
-                        }
-                        CurrentAppButton.image?.isTemplate = true
-                    }
-                    currentApp = "wait"
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5), execute: {
-                        if self.currentApp == "wait" {
-                            self.spotifyBridge.play()
-                        }
-                    })
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10), execute: {
-                        if self.currentApp == "wait" {
-                            self.spotifyBridge.play()
-                        }
-                    })
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(20), execute: {
-                        if self.currentApp == "wait" {
-                            self.spotifyBridge.play()
-                        }
-                    })
-                }
+                spotifyBridge.play()
+                MusicAppBridge.pause()
+//                if spotifyBridge.isRunning == true {
+//                    spotifyBridge.play()
+//                    MusicAppBridge.pause()
+//                } else {
+//                    DispatchQueue.main.async {
+//                        self.spotifyBridge.play()
+//                    }
+//                    if let CurrentAppButton = SwitchAppSI.button {
+//                        if UserDefaults.standard.bool(forKey: "MusicBarBlackStyle") {
+//                            CurrentAppButton.image = NSImage(named: "WaitB")
+//                        } else {
+//                            CurrentAppButton.image = NSImage(named: "WaitW")
+//                        }
+//                        CurrentAppButton.image?.isTemplate = true
+//                    }
+//                    currentApp = "wait"
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5), execute: {
+//                        if self.currentApp == "wait" {
+//                            self.spotifyBridge.play()
+//                        }
+//                    })
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10), execute: {
+//                        if self.currentApp == "wait" {
+//                            self.spotifyBridge.play()
+//                        }
+//                    })
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(20), execute: {
+//                        if self.currentApp == "wait" {
+//                            self.spotifyBridge.play()
+//                        }
+//                    })
+//                }
             } else {
                 self.showPopover(message: "It looks like Spotify is not \ninstalled on your computer. \nTo install Spotify, go to : \nhttps://www.spotify.com")
             }
         } else if currentApp == "spotify" {
-            iTunesBridge.play()
+            MusicAppBridge.play()
             if spotifyBridge.isRunning {
                 spotifyBridge.pause()
             }
@@ -539,52 +538,52 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    func playpauseFunc(sender: NSStatusBar) {
-        if currentApp == "iTunes" {
-            iTunesBridge.playPause()
+    @objc func playpauseFunc(sender: NSStatusBar) {
+        if currentApp == "MusicApp" {
+            MusicAppBridge.playPause()
         } else if currentApp == "spotify" {
             spotifyBridge.playPause()
         }
     }
-    func backFunc(sender :NSStatusBar){
-        if currentApp == "iTunes" {
-            iTunesBridge.gotoPreviousTrack()
+    @objc func backFunc(sender :NSStatusBar){
+        if currentApp == "MusicApp" {
+            MusicAppBridge.gotoPreviousTrack()
         } else if currentApp == "spotify" {
             spotifyBridge.gotoPreviousTrack()
         }
     }
-    func fwdFunc(sender :NSStatusBar){
-        if currentApp == "iTunes" {
-            iTunesBridge.gotoNextTrack()
+    @objc func fwdFunc(sender :NSStatusBar){
+        if currentApp == "MusicApp" {
+            MusicAppBridge.gotoNextTrack()
         } else if currentApp == "spotify" {
             spotifyBridge.gotoNextTrack()
         }
     }
     
-    func leftEdgeFunc(sender :NSStatusBar){
-        if iTunesBridge.isRunning && currentApp == "iTunes" {
-            iTunesBridge.rating = 0
+    @objc func leftEdgeFunc(sender :NSStatusBar){
+        if MusicAppBridge.isRunning && currentApp == "MusicApp" {
+            MusicAppBridge.rating = 0
             updateRatingDisplay()
         }
     }
-    func star1Func(sender :NSStatusBar){
-        iTunesBridge.rating = 20
+    @objc func star1Func(sender :NSStatusBar){
+        MusicAppBridge.rating = 20
         updateRatingDisplay()
     }
-    func star2Func(sender :NSStatusBar){
-        iTunesBridge.rating = 40
+    @objc func star2Func(sender :NSStatusBar){
+        MusicAppBridge.rating = 40
         updateRatingDisplay()
     }
-    func star3Func(sender :NSStatusBar){
-        iTunesBridge.rating = 60
+    @objc func star3Func(sender :NSStatusBar){
+        MusicAppBridge.rating = 60
         updateRatingDisplay()
     }
-    func star4Func(sender :NSStatusBar){
-        iTunesBridge.rating = 80
+    @objc func star4Func(sender :NSStatusBar){
+        MusicAppBridge.rating = 80
         updateRatingDisplay()
     }
-    func star5Func(sender :NSStatusBar){
-        iTunesBridge.rating = 100
+    @objc func star5Func(sender :NSStatusBar){
+        MusicAppBridge.rating = 100
         updateRatingDisplay()
     }
     
@@ -595,12 +594,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     // Notification handlers
     
-    func iTunesNotificationHandler() {
+    @objc func MusicAppNotificationHandler() {
         
-        print("iTunes notification")
+        print("MusicApp notification")
         
-        // If iTunes is closed
-        if iTunesBridge.isRunning == false || iTunesBridge.playerState == 0 {
+        // If MusicApp is closed
+        if MusicAppBridge.isRunning == false || MusicAppBridge.playerState == 0 {
             // If Spotify is open => switch to spotify
             if spotifyBridge.isRunning == true {
                 updateSpotifyDisplay()
@@ -610,11 +609,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             print("1")
         
-        // If iTunes is running & playing
-        } else if iTunesBridge.playerState == 2 {
+        // If MusicApp is running & playing
+        } else if MusicAppBridge.playerState == 2 {
             
-            // => Update display to iTunes
-            updateITunesDisplay()
+            // => Update display to MusicApp
+            updateMusicAppDisplay()
             
             // If Spotify is open => pause
             if spotifyBridge.isRunning == true {
@@ -622,29 +621,29 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             print("2")
         
-        // If iTunes is running & paused
+        // If MusicApp is running & paused
         } else {
             
-            // If display is set on iTunes => Update display
-            if currentApp == "iTunes" {
-                updateITunesDisplay()
+            // If display is set on MusicApp => Update display
+            if currentApp == "MusicApp" {
+                updateMusicAppDisplay()
             }
             print("3")
             
-            // If display is not set on iTunes => do nothing
+            // If display is not set on MusicApp => do nothing
         }
     }
     
-    func spotifyNotificationHandler() {
+    @objc func spotifyNotificationHandler() {
         
         
         // If spotify is closed
         if spotifyBridge.isRunning == false {
             print("test1")
-            // If iTunes is open => switch to iTunes
-            if iTunesBridge.isRunning == true {
-                updateITunesDisplay()
-            // If iTunes is closed => switch to standby
+            // If MusicApp is open => switch to MusicApp
+            if MusicAppBridge.isRunning == true {
+                updateMusicAppDisplay()
+            // If MusicApp is closed => switch to standby
             } else {
                 musicBarStandBy()
             }
@@ -654,9 +653,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             // => Update display to spotify
             updateSpotifyDisplay()
             
-            // If iTunes is open => pause
-            if iTunesBridge.isRunning == true {
-                iTunesBridge.pause() as Void
+            // If MusicApp is open => pause
+            if MusicAppBridge.isRunning == true {
+                MusicAppBridge.pause() as Void
             }
             
         // If spotify is running & paused
@@ -684,8 +683,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             iconDic["Pause"] = "Pause-IconB"
             iconDic["Power"] = "Power-IconB"
             iconDic["BackSI"] = "Back-IconB"
-            iconDic["Spotify-iTunes"] = "Spotify-iTunes-IconB"
-            iconDic["iTunes-Spotify"] = "iTunes-Spotify-IconB"
+            iconDic["Spotify-MusicApp"] = "Spotify-MusicApp-IconB"
+            iconDic["MusicApp-Spotify"] = "MusicApp-Spotify-IconB"
             iconDic["TextEdgeRightSI"] = "Text-Edge-RightB"
             iconDic["TextSeparator"] = "Text-SeparatorB"
             iconDic["NoTextSeparator"] = "Separator-IconB"
@@ -701,8 +700,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             iconDic["Pause"] = "Pause-Icon"
             iconDic["Power"] = "Power-Icon"
             iconDic["BackSI"] = "Back-Icon"
-            iconDic["Spotify-iTunes"] = "Spotify-iTunes-Icon"
-            iconDic["iTunes-Spotify"] = "iTunes-Spotify-Icon"
+            iconDic["Spotify-MusicApp"] = "Spotify-MusicApp-Icon"
+            iconDic["MusicApp-Spotify"] = "MusicApp-Spotify-Icon"
             iconDic["TextEdgeRightSI"] = "Text-Edge-Right"
             iconDic["TextSeparator"] = "Text-Separator"
             iconDic["NoTextSeparator"] = "Separator-Icon"
@@ -749,7 +748,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         musicBarStandBy()
-        iTunesNotificationHandler()
+        MusicAppNotificationHandler()
         if spotifyBridge.isRunning == true {
             spotifyNotificationHandler()
         }
@@ -762,12 +761,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             SwitchAppSI.length = 36
             if currentApp == "spotify" {
                 if let CurrentAppButton = SwitchAppSI.button {
-                    CurrentAppButton.image = NSImage(named: iconDic["Spotify-iTunes"]!)
+                    CurrentAppButton.image = NSImage(named: iconDic["Spotify-MusicApp"]!)
                     CurrentAppButton.image?.isTemplate = true
                 }
             } else {
                 if let CurrentAppButton = SwitchAppSI.button {
-                    CurrentAppButton.image = NSImage(named: iconDic["iTunes-Spotify"]!)
+                    CurrentAppButton.image = NSImage(named: iconDic["MusicApp-Spotify"]!)
                     CurrentAppButton.image?.isTemplate = true
                 }
             }
@@ -777,9 +776,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func updateITunesDisplay() {
+    func updateMusicAppDisplay() {
         
-        if iTunesBridge.isRunning == false {
+        if MusicAppBridge.isRunning == false {
             if spotifyBridge.isRunning == true {
                 updateSpotifyDisplay()
             } else {
@@ -788,7 +787,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
             
-        if let trackInfo = self.iTunesBridge.trackInfo { // nil indicates error, e.g. current track not available
+        if let trackInfo = self.MusicAppBridge.trackInfo { // nil indicates error, e.g. current track not available
             title = trackInfo["trackName"] as? NSString
             artist = trackInfo["trackArtist"] as? NSString
             album = trackInfo["trackAlbum"] as? NSString
@@ -804,15 +803,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         // Remove spotify display if necessary
-        if currentApp != "iTunes" {
-            currentApp = "iTunes"
+        if currentApp != "MusicApp" {
+            currentApp = "MusicApp"
             if UserDefaults.standard.bool(forKey: "MusicBarSwitchApp") {
                 updateSwitchAppDisplay()
             }
         }
         
         // Play/pause button update (playing = 2)
-        if iTunesBridge.playerState == 2 {
+        if MusicAppBridge.playerState == 2 {
             if let PlayPauseButton = PlayPauseSI.button {
                 PlayPauseButton.image = NSImage(named: iconDic["Pause"]!)
                 PlayPauseButton.image?.isTemplate = true
@@ -835,7 +834,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let artworks = track.artworks().get()
         print(artworks?[0] ?? "damned")
 
-        let artwork = artworks?[0] as! iTunesArtwork
+        let artwork = artworks?[0] as! MusicAppArtwork
         if let artworkButton = artworkSI.button {
             artworkButton.image = artwork.data
         }
@@ -843,13 +842,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         /// Other tests
         /*
-        let playlists = iTunes.playlists()
+        let playlists = MusicApp.playlists()
         print(playlists?[0] as Any)
 
-        var playlist: iTunesPlaylist
+        var playlist: MusicAppPlaylist
          
         if let dummyPlaylist = playlists?[0] {
-            playlist = dummyPlaylist as! iTunesPlaylist
+            playlist = dummyPlaylist as! MusicAppPlaylist
         print(playlist.name)
         }
         */
@@ -859,8 +858,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func updateSpotifyDisplay() {
         
         if spotifyBridge.isRunning == false {
-            if iTunesBridge.isRunning == true {
-                updateITunesDisplay()
+            if MusicAppBridge.isRunning == true {
+                updateMusicAppDisplay()
             } else {
                 musicBarStandBy()
             }
@@ -968,13 +967,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if title != "" {
                 TitleButton?.title = title! as String;
             } else {
-                TitleButton?.attributedTitle = NSAttributedString(string: NoTitleMessage, attributes: [NSForegroundColorAttributeName: NSColor.gray, NSParagraphStyleAttributeName: titleStyle])
+                TitleButton?.attributedTitle = NSAttributedString(string: NoTitleMessage, attributes: [NSAttributedString.Key.foregroundColor: NSColor.gray, NSAttributedString.Key.paragraphStyle: titleStyle])
             }
             
             if artist != ""{
                 ArtistButton?.title = artist! as String;
             } else {
-                ArtistButton?.attributedTitle = NSAttributedString(string: NoArtistMessage, attributes: [NSForegroundColorAttributeName: NSColor.gray, NSParagraphStyleAttributeName: titleStyle])
+                ArtistButton?.attributedTitle = NSAttributedString(string: NoArtistMessage, attributes: [NSAttributedString.Key.foregroundColor: NSColor.gray, NSAttributedString.Key.paragraphStyle: titleStyle])
             }
             
         } else {
@@ -992,12 +991,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func updateRatingDisplay() {
         
-        if iTunesBridge.isRunning && currentApp == "iTunes"
+        if MusicAppBridge.isRunning && currentApp == "MusicApp"
             && UserDefaults.standard.bool(forKey: "MusicBarViewRatings") {
             
             Star1SI.length = 20
             if let Star1Button = Star1SI.button {
-                if Int(iTunesBridge.rating) >= 20 {
+                if Int(truncating: MusicAppBridge.rating) >= 20 {
                     Star1Button.image = NSImage(named: iconDic["Star"]!)
                     Star1Button.image?.isTemplate = true
                 } else {
@@ -1007,7 +1006,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             Star2SI.length = 20
             if let Star2Button = Star2SI.button {
-                if Int(iTunesBridge.rating) >= 40 {
+                if Int(truncating: MusicAppBridge.rating) >= 40 {
                     Star2Button.image = NSImage(named: iconDic["Star"]!)
                     Star2Button.image?.isTemplate = true
                 } else {
@@ -1017,7 +1016,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             Star3SI.length = 20
             if let Star3Button = Star3SI.button {
-                if Int(iTunesBridge.rating) >= 60 {
+                if Int(truncating: MusicAppBridge.rating) >= 60 {
                     Star3Button.image = NSImage(named: iconDic["Star"]!)
                     Star3Button.image?.isTemplate = true
                 } else {
@@ -1027,7 +1026,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             Star4SI.length = 20
             if let Star4Button = Star4SI.button {
-                if Int(iTunesBridge.rating) >= 80 {
+                if Int(truncating: MusicAppBridge.rating) >= 80 {
                     Star4Button.image = NSImage(named: iconDic["Star"]!)
                     Star4Button.image?.isTemplate = true
                 } else {
@@ -1037,7 +1036,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             Star5SI.length = 20
             if let Star5Button = Star5SI.button {
-                if Int(iTunesBridge.rating) >= 100 {
+                if Int(truncating: MusicAppBridge.rating) >= 100 {
                     Star5Button.image = NSImage(named: iconDic["Star"]!)
                     Star5Button.image?.isTemplate = true
                 } else {
@@ -1094,7 +1093,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
         } else {
             if UserDefaults.standard.bool(forKey: "MusicBarViewRatings")
-                && iTunesBridge.isRunning && currentApp == "iTunes" {
+                && MusicAppBridge.isRunning && currentApp == "MusicApp" {
                 TextEdgeLeftSI.length = 10
                 if let TextEdgeLeftButton = TextEdgeLeftSI.button {
                     TextEdgeLeftButton.image = NSImage(named: iconDic["SeparatorSI"]!)

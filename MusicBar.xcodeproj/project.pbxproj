@@ -9,9 +9,9 @@
 /* Begin PBXBuildFile section */
 		078EA3832186081F00EF37E4 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 078EA3822186081F00EF37E4 /* ServiceManagement.framework */; };
 		07A89BF221A603560007C7A8 /* AppleScriptObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07A89BF121A603560007C7A8 /* AppleScriptObjC.framework */; };
-		07A89BF721A6038B0007C7A8 /* iTunesBridge.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 07A89BF321A6038A0007C7A8 /* iTunesBridge.applescript */; };
+		07A89BF721A6038B0007C7A8 /* MusicAppBridge.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 07A89BF321A6038A0007C7A8 /* MusicAppBridge.applescript */; };
 		07A89BF821A6038B0007C7A8 /* spotifyBridge.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 07A89BF421A6038A0007C7A8 /* spotifyBridge.applescript */; };
-		07A89BF921A6038B0007C7A8 /* iTunesBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A89BF521A6038B0007C7A8 /* iTunesBridge.swift */; };
+		07A89BF921A6038B0007C7A8 /* MusicAppBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A89BF521A6038B0007C7A8 /* MusicAppBridge.swift */; };
 		07A89BFA21A6038B0007C7A8 /* spotifyBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A89BF621A6038B0007C7A8 /* spotifyBridge.swift */; };
 		07BFF19C1E3C1C78008DC441 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BFF19B1E3C1C78008DC441 /* AppDelegate.swift */; };
 		07BFF1A01E3C1C78008DC441 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07BFF19F1E3C1C78008DC441 /* Assets.xcassets */; };
@@ -46,9 +46,9 @@
 		074A507C1EB6118500AA3BF9 /* MusicBarHelper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MusicBarHelper.entitlements; sourceTree = "<group>"; };
 		078EA3822186081F00EF37E4 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		07A89BF121A603560007C7A8 /* AppleScriptObjC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppleScriptObjC.framework; path = System/Library/Frameworks/AppleScriptObjC.framework; sourceTree = SDKROOT; };
-		07A89BF321A6038A0007C7A8 /* iTunesBridge.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; name = iTunesBridge.applescript; path = "../../Swift-AppleScriptObjC/Swift-AppleScriptObjC/iTunesBridge.applescript"; sourceTree = "<group>"; };
+		07A89BF321A6038A0007C7A8 /* MusicAppBridge.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; name = MusicAppBridge.applescript; path = "../../Swift-AppleScriptObjC/Swift-AppleScriptObjC/MusicAppBridge.applescript"; sourceTree = "<group>"; };
 		07A89BF421A6038A0007C7A8 /* spotifyBridge.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; name = spotifyBridge.applescript; path = "../../Swift-AppleScriptObjC/Swift-AppleScriptObjC/spotifyBridge.applescript"; sourceTree = "<group>"; };
-		07A89BF521A6038B0007C7A8 /* iTunesBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = iTunesBridge.swift; path = "../../Swift-AppleScriptObjC/Swift-AppleScriptObjC/iTunesBridge.swift"; sourceTree = "<group>"; };
+		07A89BF521A6038B0007C7A8 /* MusicAppBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MusicAppBridge.swift; path = "../../Swift-AppleScriptObjC/Swift-AppleScriptObjC/MusicAppBridge.swift"; sourceTree = "<group>"; };
 		07A89BF621A6038B0007C7A8 /* spotifyBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = spotifyBridge.swift; path = "../../Swift-AppleScriptObjC/Swift-AppleScriptObjC/spotifyBridge.swift"; sourceTree = "<group>"; };
 		07BFF1981E3C1C78008DC441 /* MusicBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07BFF19B1E3C1C78008DC441 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -131,8 +131,8 @@
 				07BFF19B1E3C1C78008DC441 /* AppDelegate.swift */,
 				07FDD6751E7DB921002C2D70 /* MessageViewController.swift */,
 				07FDD6731E7DAC15002C2D70 /* EventMonitor.swift */,
-				07A89BF321A6038A0007C7A8 /* iTunesBridge.applescript */,
-				07A89BF521A6038B0007C7A8 /* iTunesBridge.swift */,
+				07A89BF321A6038A0007C7A8 /* MusicAppBridge.applescript */,
+				07A89BF521A6038B0007C7A8 /* MusicAppBridge.swift */,
 				07A89BF421A6038A0007C7A8 /* spotifyBridge.applescript */,
 				07A89BF621A6038B0007C7A8 /* spotifyBridge.swift */,
 				07E714AF21BDB0A30073D5E1 /* emptyBridge.applescript */,
@@ -280,6 +280,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -324,9 +325,9 @@
 				07E714B021BDB0A30073D5E1 /* emptyBridge.applescript in Sources */,
 				07BFF19C1E3C1C78008DC441 /* AppDelegate.swift in Sources */,
 				07FDD6771E7DB921002C2D70 /* MessageViewController.swift in Sources */,
-				07A89BF921A6038B0007C7A8 /* iTunesBridge.swift in Sources */,
+				07A89BF921A6038B0007C7A8 /* MusicAppBridge.swift in Sources */,
 				07A89BF821A6038B0007C7A8 /* spotifyBridge.applescript in Sources */,
-				07A89BF721A6038B0007C7A8 /* iTunesBridge.applescript in Sources */,
+				07A89BF721A6038B0007C7A8 /* MusicAppBridge.applescript in Sources */,
 				07FDD6741E7DAC15002C2D70 /* EventMonitor.swift in Sources */,
 				07A89BFA21A6038B0007C7A8 /* spotifyBridge.swift in Sources */,
 			);
@@ -404,7 +405,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -447,7 +448,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -462,15 +463,18 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = U46769Q7NC;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = MusicBar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = tungsten.MusicBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 				USER_HEADER_SEARCH_PATHS = "MusicBar/**";
 			};
 			name = Debug;
@@ -483,15 +487,18 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = U46769Q7NC;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = MusicBar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = tungsten.MusicBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 				USER_HEADER_SEARCH_PATHS = "MusicBar/**";
 			};
 			name = Release;
@@ -508,6 +515,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = MusicBarHelper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = tungsten.MusicBarHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -528,6 +536,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = MusicBarHelper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = tungsten.MusicBarHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

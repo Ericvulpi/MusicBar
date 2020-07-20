@@ -39,12 +39,12 @@ class QueryViewController: NSViewController {
     }
     
     @IBAction func QueryFinished(_ sender: Any) {
-        let appDelegate = NSApplication.shared().delegate as! AppDelegate
+        let appDelegate = NSApplication.shared.delegate as! AppDelegate
         appDelegate.okQueryWindow(sender as AnyObject)
     }
     
     @IBAction func QueryCancel(_ sender: Any) {
-        let appDelegate = NSApplication.shared().delegate as! AppDelegate
+        let appDelegate = NSApplication.shared.delegate as! AppDelegate
         appDelegate.closePopover(sender as AnyObject)
     }
     
@@ -62,10 +62,10 @@ class AboutViewController: NSViewController {
     }
     
     @IBAction func OpenHomePage(_ sender: Any) {
-        NSWorkspace.shared().open(URL(string: "https://ericvulpi.github.io/MusicBar/")!)
+        NSWorkspace.shared.open(URL(string: "https://ericvulpi.github.io/MusicBar/")!)
     }
 
     @IBAction func BuyMeBeer(_ sender: Any) {
-        NSWorkspace.shared().open(URL(string: "https://www.paypal.me/ericvulpi")!)
+        NSWorkspace.shared.open(URL(string: "https://www.paypal.me/ericvulpi")!)
     }
 }
