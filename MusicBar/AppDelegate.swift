@@ -477,9 +477,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func showAboutPopover(message: String) {
         if let button = MusicBarSI.button {
-            let aboutViewController = AboutViewController(nibName: "MessageViewController", bundle: nil)
-            Popover.contentViewController = aboutViewController.displayMessage(message: message)
+            let storyboard = NSStoryboard(name: "Main", bundle: nil)
+            let View: AboutViewController = storyboard.instantiateController(withIdentifier: "AboutViewController") as! AboutViewController
+            
+//            let aboutViewController = AboutViewController(nibName: "AboutViewController", bundle: nil)
+            
+            Popover.contentViewController = View
             Popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+            
+            View.displayMessage(message: message)
         }
         eventMonitor?.start()
     }

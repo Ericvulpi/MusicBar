@@ -129,14 +129,14 @@
 			children = (
 				074A507B1EB6115000AA3BF9 /* MusicBar.entitlements */,
 				07BFF19B1E3C1C78008DC441 /* AppDelegate.swift */,
-				07FDD6751E7DB921002C2D70 /* MessageViewController.swift */,
-				07FDD6731E7DAC15002C2D70 /* EventMonitor.swift */,
 				07A89BF321A6038A0007C7A8 /* MusicAppBridge.applescript */,
 				07A89BF521A6038B0007C7A8 /* MusicAppBridge.swift */,
 				07A89BF421A6038A0007C7A8 /* spotifyBridge.applescript */,
 				07A89BF621A6038B0007C7A8 /* spotifyBridge.swift */,
 				07E714AF21BDB0A30073D5E1 /* emptyBridge.applescript */,
 				07E714B121BDB0B60073D5E1 /* emptyBridge.swift */,
+				07FDD6731E7DAC15002C2D70 /* EventMonitor.swift */,
+				07FDD6751E7DB921002C2D70 /* MessageViewController.swift */,
 				07BFF1A11E3C1C78008DC441 /* Main.storyboard */,
 				07BFF19F1E3C1C78008DC441 /* Assets.xcassets */,
 				07BFF1A41E3C1C78008DC441 /* Info.plist */,
@@ -463,7 +463,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = U46769Q7NC;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = MusicBar/Info.plist;
@@ -487,7 +487,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = U46769Q7NC;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = MusicBar/Info.plist;

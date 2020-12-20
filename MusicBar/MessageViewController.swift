@@ -52,18 +52,24 @@ class QueryViewController: NSViewController {
 
 class AboutViewController: NSViewController {
     
-    dynamic var Message: String = "Error"
+    @IBOutlet weak var SoftVersion: NSTextField!
     
-    func displayMessage (message: String) -> AboutViewController {
-        let storyboard = NSStoryboard(name: "Main", bundle: nil)
-        let View: AboutViewController = storyboard.instantiateController(withIdentifier: "AboutViewController") as! AboutViewController
-        View.Message = message
-        return View
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+    }
+    
+    func displayMessage (message: String) {
+//        let storyboard = NSStoryboard(name: "Main", bundle: nil)
+//        let View: AboutViewController = storyboard.instantiateController(withIdentifier: "AboutViewController") as! AboutViewController
+//        return View
+        self.SoftVersion.stringValue = message
     }
     
     @IBAction func OpenHomePage(_ sender: Any) {
         NSWorkspace.shared.open(URL(string: "https://ericvulpi.github.io/MusicBar/")!)
     }
+
 
     @IBAction func BuyMeBeer(_ sender: Any) {
         NSWorkspace.shared.open(URL(string: "https://www.paypal.me/ericvulpi")!)

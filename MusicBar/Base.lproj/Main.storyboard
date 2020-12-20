@@ -657,7 +657,7 @@
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="MusicBar" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="0.0"/>
+            <point key="canvasLocation" x="75" y="324"/>
         </scene>
         <!--Message View Controller-->
         <scene sceneID="OyO-yr-7yh">
@@ -786,10 +786,10 @@ Gw
                                 <buttonCell key="cell" type="push" title="https://ericvulpi.github.io/MusicBar/" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rzc-PH-JpQ">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
-                                    <connections>
-                                        <action selector="OpenHomePage:" target="GZh-QF-hPh" id="yQm-iQ-76a"/>
-                                    </connections>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="OpenHomePage:" target="GZh-QF-hPh" id="gDH-J0-91I"/>
+                                </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZO3-r5-khr">
                                 <rect key="frame" x="79" y="13" width="115" height="32"/>
@@ -799,7 +799,7 @@ Gw
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="BuyMeBeer:" target="GZh-QF-hPh" id="A20-It-tjf"/>
+                                    <action selector="BuyMeBeer:" target="GZh-QF-hPh" id="8K9-9V-3K6"/>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DUt-vd-8oB">
@@ -809,19 +809,12 @@ Gw
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    <connections>
-                                        <binding destination="GZh-QF-hPh" name="displayPatternValue1" keyPath="self.Message" id="fQn-xX-23s">
-                                            <dictionary key="options">
-                                                <string key="NSDisplayPattern">%{value1}@</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
                                 </textFieldCell>
                             </textField>
                         </subviews>
                     </view>
                     <connections>
-                        <outlet property="HomePage" destination="etw-Kq-EXo" id="5AD-xF-dua"/>
+                        <outlet property="SoftVersion" destination="DUt-vd-8oB" id="bmD-YE-vSu"/>
                     </connections>
                 </viewController>
                 <customObject id="e5V-uK-iMi" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
